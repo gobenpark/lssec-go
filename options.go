@@ -1,5 +1,7 @@
 package ebest_go
 
+import "time"
+
 type ClientOption func(*Client)
 
 func WithAuth(appKey, secret string) ClientOption {
@@ -15,7 +17,7 @@ func WithAccessToken(token string) ClientOption {
 	}
 }
 
-func WithAutomaticTokenCache(cache bool) ClientOption {
+func WithAutomaticTokenCache(cache bool, expire time.Duration) ClientOption {
 	return func(client *Client) {
 		client.aCache = cache
 	}

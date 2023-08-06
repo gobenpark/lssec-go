@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
@@ -20,7 +22,13 @@ type Client struct {
 	appSecret   string
 	accessToken string
 	aCache      bool
+	expire      time.Duration
 	cli         *resty.Client
+}
+
+// TODO: remove and recreate
+func saveToken(token string, expire time.Duration) error {
+
 }
 
 func NewClient(options ...ClientOption) *Client {
@@ -46,11 +54,13 @@ func NewClient(options ...ClientOption) *Client {
 			if err != nil {
 				panic(err)
 			}
+
 			client.accessToken = string(tk)
-			if _, err := tf.Write([]byte(tk)); err != nil {
+			date := time.Now().Add(client.expire)
+			expiredate := date.Format("20060102")
+			if _, err := tf.Write([]byte(tk + "::" + expiredate)); err != nil {
 				panic(err)
 			}
-			fmt.Println(string(tk))
 		} else if err != nil {
 			panic(err)
 		} else {
@@ -58,7 +68,18 @@ func NewClient(options ...ClientOption) *Client {
 			if err != nil {
 				panic(err)
 			}
-			client.accessToken = string(bt)
+
+			data := strings.Split(string(bt), "::")
+			if len(data) != 2 {
+				panic("invalid token file")
+			}
+
+			expireTime := time.Parse("20060102", data[1])
+			if time.Now().After(expireTime) {
+				//TODO: refresh token
+			}
+
+			client.accessToken = string(data[0])
 		}
 		defer f.Close()
 
