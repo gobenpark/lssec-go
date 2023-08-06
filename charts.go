@@ -33,7 +33,7 @@ func (t TotalChartOption) MarshalJSON() ([]byte, error) {
     "gubun": "%s",
     "ncnt": %d,
     "qrycnt": %d,
-    "tdgb": "%d",
+    "tdgb": "%s",
     "sdate": "%s",
     "edate": "%s",
     "cts_date": "%s",
@@ -54,12 +54,24 @@ func (t TotalChartOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
-func (c *Client) Charts(ctx context.Context, data TotalChartOption) ([]byte, error) {
-	headers := map[string]string{}
+func (c *Client) Charts(ctx context.Context, contKey string, option Option) ([]byte, error) {
+	headers := map[string]string{
+		"tr_cd":        option.String(),
+		"tr_cont":      "N",
+		"content-type": "application/json; charset=utf-8",
+	}
+	if contKey != "" {
+		headers["tr_cont"] = "Y"
+		headers["tr_cont_key"] = contKey
+	}
 	res, err := c.cli.R().
 		SetContext(ctx).
 		SetHeaders(headers).
-		SetBody().
+		SetBody(option).
 		Post("/indtp/chart")
+	if err != nil {
+		return nil, err
+	}
+	return res.Body(), nil
 
 }

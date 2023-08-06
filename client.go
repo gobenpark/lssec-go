@@ -11,7 +11,9 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-type Menu string
+type Option interface {
+	String() string
+}
 
 type Client struct {
 	appKey      string

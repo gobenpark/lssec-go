@@ -5,23 +5,6 @@ import (
 	"fmt"
 )
 
-const (
-	// 업종 기간별 추이
-	IndustryTrendsOverTimeMenu = "t1514"
-	// 전체업종
-	TotalIndustryMenu Menu = "t8436"
-	// 예상지수
-	ExpectedStockIndexMenu Menu = "t1485"
-	// 업종현재가
-	CurrentPriceOfIndustryMenu Menu = "t1511"
-	// 업종별 종목시세
-	PriceOfIndustryMenu Menu = "t1516"
-)
-
-type MarketDataOption interface {
-	String() string
-}
-
 // 업종 기간별 추이
 // example"
 //
@@ -153,7 +136,7 @@ func (i PriceOfIndustryOption) MarshalJSON() ([]byte, error) {
 	return []byte(body), nil
 }
 
-func (c *Client) MarketData(ctx context.Context, contKey string, data MarketDataOption) ([]byte, error) {
+func (c *Client) MarketData(ctx context.Context, contKey string, data Option) ([]byte, error) {
 	headers := map[string]string{
 		"tr_cd":        data.String(),
 		"tr_cont":      "N",
