@@ -17,6 +17,6 @@ func WithAccessToken(token string) ClientOption {
 
 func WithAutomaticTokenCache(cache bool) ClientOption {
 	return func(client *Client) {
-
+		client.aCache = cache
 	}
 }
