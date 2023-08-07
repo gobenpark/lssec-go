@@ -4,64 +4,66 @@ import (
 	"context"
 	"ebest-go/test"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
-
-//
-//{
-//"t1514InBlock": {
-//"upcode": "001",
-//"gubun1": "",
-//"gubun2": "1",
-//"cts_date": "20230804",
-//"cnt": 1,
-//"rate_gbn": "1"
-//}
-//}
 
 func Test_MarketData(t *testing.T) {
 	key, secret := test.Secret(t)
 	cli := NewClient(
 		WithAuth(key, secret), WithAutomaticTokenCache(true))
 
-	t.Run("IndustryTrendsOverTime", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", IndustryTrendsOverTimeOption{
-			Code:    "001",
-			Date:    "1",
-			CtsDate: "20230803",
-			Count:   1,
-			Rate:    1,
-		})
+	t.Run("CurrentAskingPriceOption", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "0", CurrentAskingPriceOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
-	t.Run("TotalIndustry", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", TotalIndustryOption{})
+	t.Run("CurrentPriceOption", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "", CurrentPriceOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
-	t.Run("ExpectedStockIndex", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", ExpectedStockIndexOption{
-			Code:  "001",
-			Gubun: "2",
-		})
+	t.Run("CurrentPriceMemoOption", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "", CurrentPriceMemoOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
-	t.Run("CurrentPriceOfIndustryOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", CurrentPriceOfIndustryOption{
-			Code: "101",
-		})
-		require.NoError(t, err)
-	})
-
-	t.Run("PriceOfIndustryOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "005930", PriceOfIndustryOption{
-			Code:   "100",
-			Gubun:  "1",
+	t.Run("SearchPivotDemarkOption", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "", SearchPivotDemarkOption{
 			Ticker: "005930",
 		})
 		require.NoError(t, err)
 	})
+
+	t.Run("OvertimeTransactionCountOption", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "", OvertimeTransactionCountOption{
+			Ticker:     "005930",
+			DanChetime: time.Now(),
+			Index:      0,
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("TimeOfDayTransaction", func(t *testing.T) {
+		_, err := cli.MarketData(context.TODO(), "", TimeOfDayTransactionOption{
+			Ticker:    "005930",
+			Volume:    0,
+			StartTime: time.Now().Add(-2 * time.Hour),
+			EndTime:   time.Now(),
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("MinuteOfDayPriceOption", func(t *testing.T) {
+		loc, _ := time.LoadLocation("Asia/Seoul")
+		_, err := cli.MarketData(context.TODO(), "", MinuteOfDayPriceOption{
+			Ticker: "001200",
+			Gubun:  "0",
+			Time:   time.Date(0, 0, 0, 11, 0, 0, 0, loc),
+			Count:  0,
+		})
+		require.NoError(t, err)
+	})
+
 }
