@@ -61,3 +61,45 @@ func (t TotalChartOption) MarshalJSON() ([]byte, error) {
 func (t TotalChartOption) Path() string {
 	return "/indtp/chart"
 }
+
+type DaySectorChartOption struct {
+	SectorCode  SectorCode
+	ChartType   Chart
+	Count       int
+	StartDate   string
+	EndDate     string
+	Compression bool
+}
+
+func (DaySectorChartOption) String() string {
+	return "t8419"
+}
+
+func (t DaySectorChartOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+    "shcode": "%s",
+    "gubun": "%s",
+    "qrycnt": %d,
+    "sdate": "%s",
+    "edate": "%s",
+	"comp_yn": "%s"
+  }
+}`, t.String(),
+		t.SectorCode,
+		t.ChartType,
+		t.Count,
+		t.StartDate,
+		t.EndDate,
+		func() string {
+			if t.Compression {
+				return "Y"
+			}
+			return "N"
+		}(),
+	)), nil
+}
+
+func (DaySectorChartOption) Path() string {
+	return "/indtp/chart"
+}
