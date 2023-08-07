@@ -15,7 +15,7 @@ go get github.com/gobenpark/ebest-go
 ```go
 cli := ebest-go.NewClient(
 	WithAuth(key,secret),
-	WithAutomaticTokenCache(true,time.Hour),
+	WithAutomaticTokenCache(true),
 	)
 
 // Do something
