@@ -14,6 +14,7 @@ import (
 
 type Option interface {
 	String() string
+	Path() string
 }
 
 type Client struct {
@@ -110,4 +111,22 @@ func (c *Client) AccessToken(ctx context.Context) (string, error) {
 	}
 
 	return gjson.GetBytes(res.Body(), "access_token").String(), nil
+}
+
+func (c *Client) Execute(ctx context.Context, option Option) ([]byte, error) {
+	headers := map[string]string{
+		"tr_cd":        option.String(),
+		"tr_cont":      "N",
+		"content-type": "application/json; charset=utf-8",
+	}
+	res, err := c.cli.R().
+		SetContext(ctx).
+		SetHeaders(headers).
+		SetBody(option).
+		Post(option.Path())
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body(), nil
 }

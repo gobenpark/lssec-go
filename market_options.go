@@ -24,6 +24,10 @@ func (c CurrentAskingPriceOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
+func (c CurrentAskingPriceOption) Path() string {
+	return "/stock/market-data"
+}
+
 type CurrentPriceOption struct {
 	Ticker string
 }
@@ -40,6 +44,10 @@ func (c CurrentPriceOption) MarshalJSON() ([]byte, error) {
 }`, c.String(),
 		c.Ticker,
 	)), nil
+}
+
+func (c CurrentPriceOption) Path() string {
+	return "/stock/market-data"
 }
 
 type CurrentPriceMemoOption struct {
@@ -60,6 +68,10 @@ func (c CurrentPriceMemoOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
+func (CurrentPriceMemoOption) Path() string {
+	return "/stock/market-data"
+}
+
 type SearchPivotDemarkOption struct {
 	Ticker string
 }
@@ -76,6 +88,10 @@ func (c SearchPivotDemarkOption) MarshalJSON() ([]byte, error) {
 }`, c.String(),
 		c.Ticker,
 	)), nil
+}
+
+func (SearchPivotDemarkOption) Path() string {
+	return "/stock/market-data"
 }
 
 type OvertimeTransactionCountOption struct {
@@ -102,6 +118,10 @@ func (c OvertimeTransactionCountOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
+func (OvertimeTransactionCountOption) Path() string {
+	return "/stock/market-data"
+}
+
 type TimeOfDayTransactionOption struct {
 	Ticker    string
 	Volume    int
@@ -112,6 +132,10 @@ type TimeOfDayTransactionOption struct {
 
 func (TimeOfDayTransactionOption) String() string {
 	return "t1301"
+}
+
+func (c TimeOfDayTransactionOption) Path() string {
+	return "/stock/market-data"
 }
 
 func (c TimeOfDayTransactionOption) MarshalJSON() ([]byte, error) {
@@ -143,6 +167,10 @@ type MinuteOfDayPriceOption struct {
 	Gubun string
 	Time  time.Time
 	Count int
+}
+
+func (MinuteOfDayPriceOption) Path() string {
+	return "/stock/market-data"
 }
 
 func (MinuteOfDayPriceOption) String() string {

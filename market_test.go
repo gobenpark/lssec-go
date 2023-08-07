@@ -15,29 +15,29 @@ func Test_MarketData(t *testing.T) {
 		WithAuth(key, secret), WithAutomaticTokenCache(true))
 
 	t.Run("CurrentAskingPriceOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "0", CurrentAskingPriceOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentAskingPriceOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
 	t.Run("CurrentPriceOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", CurrentPriceOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentPriceOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
 	t.Run("CurrentPriceMemoOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", CurrentPriceMemoOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentPriceMemoOption{Ticker: "005930"})
 		require.NoError(t, err)
 	})
 
 	t.Run("SearchPivotDemarkOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", SearchPivotDemarkOption{
+		_, err := cli.Execute(context.TODO(), SearchPivotDemarkOption{
 			Ticker: "005930",
 		})
 		require.NoError(t, err)
 	})
 
 	t.Run("OvertimeTransactionCountOption", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", OvertimeTransactionCountOption{
+		_, err := cli.Execute(context.TODO(), OvertimeTransactionCountOption{
 			Ticker:     "005930",
 			DanChetime: time.Now(),
 			Index:      0,
@@ -46,7 +46,7 @@ func Test_MarketData(t *testing.T) {
 	})
 
 	t.Run("TimeOfDayTransaction", func(t *testing.T) {
-		_, err := cli.MarketData(context.TODO(), "", TimeOfDayTransactionOption{
+		_, err := cli.Execute(context.TODO(), TimeOfDayTransactionOption{
 			Ticker:    "005930",
 			Volume:    0,
 			StartTime: time.Now().Add(-2 * time.Hour),
@@ -57,7 +57,7 @@ func Test_MarketData(t *testing.T) {
 
 	t.Run("MinuteOfDayPriceOption", func(t *testing.T) {
 		loc, _ := time.LoadLocation("Asia/Seoul")
-		_, err := cli.MarketData(context.TODO(), "", MinuteOfDayPriceOption{
+		_, err := cli.Execute(context.TODO(), MinuteOfDayPriceOption{
 			Ticker: "001200",
 			Gubun:  "0",
 			Time:   time.Date(0, 0, 0, 11, 0, 0, 0, loc),

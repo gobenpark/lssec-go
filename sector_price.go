@@ -2,6 +2,22 @@ package ebest_go
 
 import "fmt"
 
+type SectorCode string
+
+const (
+	KOSPI_CODE  SectorCode = "001"
+	KOSDAQ_CODE SectorCode = "301"
+	KRX100_CODE SectorCode = "501"
+	KP200_CODE  SectorCode = "101"
+	SRI_CODE    SectorCode = "515"
+	// 코스닥 프리미어
+	KOSDAQPREMIER_CODE SectorCode = "404"
+	// KRX 보험
+	KRXINSURANCE_CODE SectorCode = "516"
+	// 운송
+	KRXTRANSPORTATION_CODE SectorCode = "517"
+)
+
 // 업종 기간별 추이
 // example"
 //
@@ -27,6 +43,10 @@ type IndustryTrendsOverTimeOption struct {
 
 func (IndustryTrendsOverTimeOption) String() string {
 	return "t1514"
+}
+
+func (IndustryTrendsOverTimeOption) Path() string {
+	return "/indtp/market-data"
 }
 
 func (i IndustryTrendsOverTimeOption) MarshalJSON() ([]byte, error) {
@@ -63,6 +83,10 @@ func (i TotalIndustryOption) MarshalJSON() ([]byte, error) {
 }`), nil
 }
 
+func (TotalIndustryOption) Path() string {
+	return "/indtp/market-data"
+}
+
 // 예상지수
 type ExpectedStockIndexOption struct {
 	// 코스피:001 코스닥:301 KRX100:501 KP200:101 SRI:515 코스닥프리미어:404 KRX 보험:516 KRX 운송:517
@@ -88,6 +112,10 @@ func (i ExpectedStockIndexOption) MarshalJSON() ([]byte, error) {
 	return []byte(body), nil
 }
 
+func (ExpectedStockIndexOption) Path() string {
+	return "/indtp/market-data"
+}
+
 type CurrentPriceOfIndustryOption struct {
 	SectorCode SectorCode
 }
@@ -106,6 +134,10 @@ func (i CurrentPriceOfIndustryOption) MarshalJSON() ([]byte, error) {
 `, i.String(), i.SectorCode)
 
 	return []byte(body), nil
+}
+
+func (CurrentPriceOfIndustryOption) Path() string {
+	return "/indtp/market-data"
 }
 
 // 업종별 종목시세
@@ -131,4 +163,8 @@ func (i PriceOfIndustryOption) MarshalJSON() ([]byte, error) {
 `, i.String(), i.SectorCode, i.Gubun, i.Ticker)
 
 	return []byte(body), nil
+}
+
+func (PriceOfIndustryOption) Path() string {
+	return "/indtp/market-data"
 }

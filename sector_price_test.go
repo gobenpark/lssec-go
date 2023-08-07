@@ -26,7 +26,7 @@ func Test_MarketSectorData(t *testing.T) {
 		WithAuth(key, secret), WithAutomaticTokenCache(true))
 
 	t.Run("IndustryTrendsOverTime", func(t *testing.T) {
-		_, err := cli.MarketSectorData(context.TODO(), "", IndustryTrendsOverTimeOption{
+		result, err := cli.Execute(context.TODO(), IndustryTrendsOverTimeOption{
 			SectorCode: "001",
 			Date:       "1",
 			CtsDate:    "20230803",
@@ -34,15 +34,16 @@ func Test_MarketSectorData(t *testing.T) {
 			Rate:       1,
 		})
 		require.NoError(t, err)
+		require.Greater(t, len(result), 0)
 	})
 
 	t.Run("TotalIndustry", func(t *testing.T) {
-		_, err := cli.MarketSectorData(context.TODO(), "", TotalIndustryOption{})
+		_, err := cli.Execute(context.TODO(), TotalIndustryOption{})
 		require.NoError(t, err)
 	})
 
 	t.Run("ExpectedStockIndex", func(t *testing.T) {
-		_, err := cli.MarketSectorData(context.TODO(), "", ExpectedStockIndexOption{
+		_, err := cli.Execute(context.TODO(), ExpectedStockIndexOption{
 			SectorCode: "001",
 			Gubun:      "2",
 		})
@@ -50,14 +51,14 @@ func Test_MarketSectorData(t *testing.T) {
 	})
 
 	t.Run("CurrentPriceOfIndustryOption", func(t *testing.T) {
-		_, err := cli.MarketSectorData(context.TODO(), "", CurrentPriceOfIndustryOption{
+		_, err := cli.Execute(context.TODO(), CurrentPriceOfIndustryOption{
 			SectorCode: "101",
 		})
 		require.NoError(t, err)
 	})
 
 	t.Run("PriceOfIndustryOption", func(t *testing.T) {
-		_, err := cli.MarketSectorData(context.TODO(), "005930", PriceOfIndustryOption{
+		_, err := cli.Execute(context.TODO(), PriceOfIndustryOption{
 			SectorCode: "100",
 			Gubun:      "1",
 			Ticker:     "005930",
