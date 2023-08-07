@@ -164,19 +164,3 @@ func (c MinuteOfDayPriceOption) MarshalJSON() ([]byte, error) {
 		c.Count,
 	)), nil
 }
-
-//
-//
-//Element	한글명	type	Required	Length	Description
-//t1302InBlock	t1302InBlock	Object	Y	-
-//-shcode	단축코드	String	Y	6
-//-gubun	작업구분	String	Y	1	0:30초
-//1:1분
-//2:3분
-//3:5분
-//4:10분
-//5:30분
-//6:60분
-//-time	시간	String	Y	6	처음 조회시는 Space
-//연속 조회시에 이전 조회한 OutBlock의 cts_time 값으로 설정
-//cnt	건수	Number	Y	3	1이상 900 이하
