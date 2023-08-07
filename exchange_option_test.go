@@ -12,8 +12,8 @@ func Test_Exchange(t *testing.T) {
 	key, secret := test.Secret(t)
 	cli := NewClient(
 		WithAuth(key, secret), WithAutomaticTokenCache(true))
-	t.Run("TopMemberCompany", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), TopMemberCompany{
+	t.Run("TopMemberCompanyOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), TopMemberCompanyOption{
 			Ticker:    "005930",
 			StartDate: "20230806",
 			EndDate:   "20230807",
@@ -22,13 +22,13 @@ func Test_Exchange(t *testing.T) {
 		require.NoError(t, err)
 	})
 
-	t.Run("MemberShipTrandsByStock", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), MemberShipTrandsByStock{
+	t.Run("MemberShipTrandsByStockOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), MemberShipTrandsByStockOption{
 			Ticker:       "005930",
 			MemberNumber: "033",
 			StartDate:    "20230806",
 			EndDate:      "20230807",
-			Gubun:        "0",
+			TimeOrDate:   "0",
 			Count:        500,
 		})
 		require.NoError(t, err)

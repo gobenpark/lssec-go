@@ -5,7 +5,7 @@ import "fmt"
 // 거래원 정보
 
 // 종목별 상위 거래원
-type TopMemberCompany struct {
+type TopMemberCompanyOption struct {
 	Ticker    string
 	StartDate string
 	EndDate   string
@@ -13,7 +13,7 @@ type TopMemberCompany struct {
 	Foreigner bool
 }
 
-func (t TopMemberCompany) MarshalJSON() ([]byte, error) {
+func (t TopMemberCompanyOption) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`{
   "%sInBlock": {
     "shcode": "%s",
@@ -34,26 +34,26 @@ func (t TopMemberCompany) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
-func (TopMemberCompany) String() string {
+func (TopMemberCompanyOption) String() string {
 	return "t1752"
 }
 
-func (TopMemberCompany) Path() string {
+func (TopMemberCompanyOption) Path() string {
 	return "/stock/exchange"
 }
 
 // 종목별 회원사 추이
-type MemberShipTrandsByStock struct {
+type MemberShipTrandsByStockOption struct {
 	Ticker       string
 	MemberNumber string `json:"tradno"`
 	StartDate    string
 	EndDate      string
 	// 0: 시간별 1: 일별
-	Gubun string
-	Count int
+	TimeOrDate string
+	Count      int
 }
 
-func (t MemberShipTrandsByStock) MarshalJSON() ([]byte, error) {
+func (t MemberShipTrandsByStockOption) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`{
   "%sInBlock": {
     "shcode": "%s",
@@ -68,15 +68,15 @@ func (t MemberShipTrandsByStock) MarshalJSON() ([]byte, error) {
 		t.MemberNumber,
 		t.StartDate,
 		t.EndDate,
-		t.Gubun,
+		t.TimeOrDate,
 		t.Count,
 	)), nil
 }
 
-func (MemberShipTrandsByStock) String() string {
+func (MemberShipTrandsByStockOption) String() string {
 	return "t1771"
 }
 
-func (MemberShipTrandsByStock) Path() string {
+func (MemberShipTrandsByStockOption) Path() string {
 	return "/stock/exchange"
 }
