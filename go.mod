@@ -1,4 +1,4 @@
-module ebest-go
+module github.com/gobenpark/ebest-go
 
 go 1.20
 
