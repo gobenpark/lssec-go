@@ -11,18 +11,23 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_ClientRealtime(t *testing.T) {
+func ClientHelper(t *testing.T) *Client {
+	t.Helper()
 	key, secret := test.Secret(t)
 	cli := NewClient(
 		WithAuth(key, secret), WithAutomaticTokenCache(true))
+	return cli
+}
 
+func Test_ClientRealtime(t *testing.T) {
+	cli := ClientHelper(t)
 	ko, err := cli.Kospi(context.Background())
 	require.NoError(t, err)
 
 	contents := lo.Map(ko, func(item Code, index int) SubscriptionContent {
 		return SubscriptionContent{
 			Type:   AddPriceTRType,
-			TRCD:   KOSPITR,
+			TRCD:   KOSPIContract,
 			Ticker: item.Code,
 		}
 	})
@@ -42,7 +47,7 @@ func Test_ClientRealtime(t *testing.T) {
 	contentskq := lo.Map(kq, func(item Code, index int) SubscriptionContent {
 		return SubscriptionContent{
 			Type:   AddPriceTRType,
-			TRCD:   KOSDAQTR,
+			TRCD:   KOSDAQContract,
 			Ticker: item.Code,
 		}
 	})

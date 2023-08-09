@@ -2,7 +2,6 @@ package ebest_go
 
 import (
 	"context"
-	"ebest-go/test"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -21,9 +20,7 @@ import (
 //}
 
 func Test_MarketSectorData(t *testing.T) {
-	key, secret := test.Secret(t)
-	cli := NewClient(
-		WithAuth(key, secret), WithAutomaticTokenCache(true))
+	cli := ClientHelper(t)
 
 	t.Run("IndustryTrendsOverTime", func(t *testing.T) {
 		result, err := cli.Execute(context.TODO(), IndustryTrendsOverTimeOption{

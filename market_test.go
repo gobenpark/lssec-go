@@ -2,7 +2,6 @@ package ebest_go
 
 import (
 	"context"
-	"ebest-go/test"
 	"testing"
 	"time"
 
@@ -10,9 +9,7 @@ import (
 )
 
 func Test_MarketData(t *testing.T) {
-	key, secret := test.Secret(t)
-	cli := NewClient(
-		WithAuth(key, secret), WithAutomaticTokenCache(true))
+	cli := ClientHelper(t)
 
 	t.Run("CurrentAskingPriceOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), CurrentAskingPriceOption{Ticker: "005930"})

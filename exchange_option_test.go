@@ -2,16 +2,13 @@ package ebest_go
 
 import (
 	"context"
-	"ebest-go/test"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
 func Test_Exchange(t *testing.T) {
-	key, secret := test.Secret(t)
-	cli := NewClient(
-		WithAuth(key, secret), WithAutomaticTokenCache(true))
+	cli := ClientHelper(t)
 	t.Run("TopMemberCompanyOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), TopMemberCompanyOption{
 			Ticker:    "005930",

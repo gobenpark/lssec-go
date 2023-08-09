@@ -153,8 +153,90 @@ type SubscriptionTR string
 type SubscriptionTRType string
 
 const (
-	KOSDAQTR SubscriptionTR = "K3_"
-	KOSPITR  SubscriptionTR = "S3_"
+	// ETF호가잔량
+	ETFAskingbalance SubscriptionTR = "B7_"
+	// KOSPI시간외단일가호가잔량
+	OverTimeKOSPIAskikngSingleBalance SubscriptionTR = "DH1"
+	// KOSDAQ시간외단일가호가잔량
+	OverTimeKOSDAQAskingSignleBalance SubscriptionTR = "DHA"
+	// KOSDAQ시간외단일가체결
+	OvertimeKOSDAQSinglePriceContract SubscriptionTR = "DK3"
+	// KOSPI시간외단일가체결
+	OvertimeKOSPISinglePriceContract SubscriptionTR = "DS3"
+	// 시간외단일가VI발동해제
+	OvertimeSinglePriceVIClear SubscriptionTR = "DVI"
+	// KOSPI호가잔량
+	KOSPIAskingBalance SubscriptionTR = "H1_"
+	// KOSDAQ호가잔량
+	KOSDAQAskingBalance SubscriptionTR = "HA_"
+	// 코스피ETF종목실시간NAV
+	KOSPIETFRealtimeNAV SubscriptionTR = "I5_"
+	// 지수
+	Index SubscriptionTR = "IJ_"
+	// KOSPI거래원
+	KOSPITrader SubscriptionTR = "K1_"
+	// KOSDAQ체결
+	KOSDAQContract SubscriptionTR = "K3_"
+	// KOSDAQ프로그램매매종목별
+	KOSDAQProgramTrade SubscriptionTR = "KH_"
+	// KOSDAQ프로그램매매전체집계
+	KOSDAQProgramTradeTotal SubscriptionTR = "KM_"
+	// KOSDAQ우선호가
+	KOSDAQPriorityAsking SubscriptionTR = "KS_"
+	// KOSDAQ거래원
+	KOSDAQTrader SubscriptionTR = "OK_"
+	// KOSPI프로그램매매종목별
+	KOSPIProgramTrade SubscriptionTR = "PH_"
+	// KOSPI프로그램매매전체집계
+	KOSPIProgramTradeTotal SubscriptionTR = "PM_"
+	// KOSPI우선호가
+	KOSPIPriorityAskingSubscriptionTR = "S2_"
+	// KOSPI체결
+	KOSPIContract SubscriptionTR = "S3_"
+	// KOSPI기세
+	KOSPIMomentum SubscriptionTR = "S4_"
+	// 주식주문접수
+	StockOrderAcceptance SubscriptionTR = "SC0"
+	// 주식주문체결
+	StockOrderContract SubscriptionTR = "SC1"
+	// 주식주문정정
+	StockOrderModify SubscriptionTR = "SC2"
+	// 주식주문취소
+	StockOrderCancel SubscriptionTR = "SC3"
+	// 주식주문거부
+	StockOrderReject SubscriptionTR = "SC4"
+	// 상/하한가근접진입
+	UpperLowerLimitNearApproach SubscriptionTR = "SHC"
+	// 상/하한가근접이탈
+	UpperLowerLimitNearDeparture SubscriptionTR = "SHD"
+	// 상/하한가진입
+	UpperLowerLimitApproach SubscriptionTR = "SHI"
+	// 상/하한가이탈
+	UpperLowerLimitDeparture SubscriptionTR = "SHO"
+	// VI발동해제
+	VIClear SubscriptionTR = "VI_"
+	// 예상지수
+	ExpectedIndex SubscriptionTR = "YJ_"
+	// KOSDAQ예상체결
+	KOSDAQExpectedContract SubscriptionTR = "YK3"
+	// KOSPI예상체결
+	KOSPIExpectedContract SubscriptionTR = "YS3"
+	// 뉴ELW투자지표민감도
+	NewELWInvestmentIndicatorSensitivity SubscriptionTR = "ESN"
+	// ELW장전시간외호가잔량
+	ELWPreMarketAskingBalance SubscriptionTR = "h2_"
+	// ELW호가잔량
+	ELWAskingBalance SubscriptionTR = "h3_"
+	// ELW거래원
+	ELWTrader SubscriptionTR = "k1_"
+	// ELW우선호가
+	ELWPriorityAsking SubscriptionTR = "s2_"
+	// ELW체결
+	ELWContract SubscriptionTR = "s3_"
+	// ELW기세
+	ELWMomentum SubscriptionTR = "s4_"
+	// ELW예상체결
+	ELWExpectedContract SubscriptionTR = "Ys3"
 
 	AddAccountTRType    SubscriptionTRType = "1"
 	DeleteAccountTRType SubscriptionTRType = "2"
