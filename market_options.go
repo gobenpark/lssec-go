@@ -72,6 +72,7 @@ func (CurrentPriceMemoOption) Path() string {
 	return "/stock/market-data"
 }
 
+// 주식피봇/디마크조회
 type SearchPivotDemarkOption struct {
 	Ticker string
 }
@@ -94,6 +95,7 @@ func (SearchPivotDemarkOption) Path() string {
 	return "/stock/market-data"
 }
 
+// 시간외체결량
 type OvertimeTransactionCountOption struct {
 	Ticker     string
 	DanChetime time.Time
@@ -122,6 +124,7 @@ func (OvertimeTransactionCountOption) Path() string {
 	return "/stock/market-data"
 }
 
+// 주식시간대별체결조회
 type TimeOfDayTransactionOption struct {
 	Ticker    string
 	Volume    int
@@ -156,6 +159,7 @@ func (c TimeOfDayTransactionOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
+// 주식분별주가조회
 type MinuteOfDayPriceOption struct {
 	Ticker string
 	// 1:1분

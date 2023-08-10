@@ -2,6 +2,7 @@ package ebest_go
 
 import "fmt"
 
+// 투자자별종합
 type TotalInvestorOption struct {
 	// 1: 수량, 2:금액
 	StockAmountOrPrice string

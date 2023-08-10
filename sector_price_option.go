@@ -116,6 +116,7 @@ func (ExpectedStockIndexOption) Path() string {
 	return "/indtp/market-data"
 }
 
+// 업종별 현재가
 type CurrentPriceOfIndustryOption struct {
 	SectorCode SectorCode
 }

@@ -52,7 +52,7 @@ func (t OrderOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
-type OrderEditOption struct {
+type OrderModifyOption struct {
 	// 주문번호
 	OrderNumber int
 	// A+종목코드
@@ -65,15 +65,15 @@ type OrderEditOption struct {
 	OrderCondition string
 }
 
-func (OrderEditOption) String() string {
+func (OrderModifyOption) String() string {
 	return "CSPAT00701"
 }
 
-func (t OrderEditOption) Path() string {
+func (t OrderModifyOption) Path() string {
 	return "/stock/order"
 }
 
-func (t OrderEditOption) MarshalJSON() ([]byte, error) {
+func (t OrderModifyOption) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`{
   "%sInBlock1": {
 	"OrgOrdNo": %d,

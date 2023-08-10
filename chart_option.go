@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// 업종차트(틱/n틱)
 type TickSectorChartOption struct {
 	Code SectorCode
 	// 요청건수 (최대-압축: 2000 비압축:500)
