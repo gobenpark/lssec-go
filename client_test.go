@@ -2,11 +2,11 @@ package ebest_go
 
 import (
 	"context"
-	"ebest-go/test"
 	"fmt"
 	"testing"
 	"time"
 
+	"github.com/gobenpark/ebest-go/test"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"
 )
