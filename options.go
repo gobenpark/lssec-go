@@ -28,3 +28,9 @@ func WithLogger(log *zap.Logger) ClientOption {
 		c.log = log
 	}
 }
+
+func WithDebug(debug bool) ClientOption {
+	return func(c *Client) {
+		c.debug = debug
+	}
+}

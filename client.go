@@ -33,6 +33,7 @@ type Client struct {
 	ws          *Websocket
 	broadCaster *BroadCast
 	one         sync.Once
+	debug       bool
 }
 
 func NewClient(options ...ClientOption) *Client {
@@ -49,7 +50,7 @@ func NewClient(options ...ClientOption) *Client {
 	}
 	cli := resty.New()
 	cli.SetBaseURL("https://openapi.ebestsec.co.kr:8080")
-	cli.SetDebug(true)
+	cli.SetDebug(client.debug)
 	client.cli = cli
 
 	if client.aCache {
