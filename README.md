@@ -13,13 +13,24 @@ go get github.com/gobenpark/ebest-go
 ## Usage
 
 ```go
-cli := ebest-go.NewClient(
+cli := ebest_go.NewClient(
 	WithAuth(key,secret),
 	WithAutomaticTokenCache(true),
 	)
 
 // Do something
-cli.AccessToken(context.TODO()) 
+cli.AccessToken(context.TODO())
+
+bt, err := cli.Execute(context.TODO(), ebest_go.AccountBalanceOption{
+PriceType:       "",
+ContractType:    "",
+SinglePriceType: "",
+Charge:          "",
+Ticker:          "",
+})
+if err != nil {
+	return
+}
 ```
 
 ## TODO
