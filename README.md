@@ -77,24 +77,22 @@ if err != nil {
   - OvertimeTransactionCountOption [시간외체결량]
   - TimeOfDayTransactionOption [주식시간대별체결조회]
   - MinuteOfDayPriceOption [주식분별주가조회]
-
-  미구현
-  - 기간별주가
-  - 주식시간대별체결조회챠트
-  - 주식당일전일분틱조회
-  - 관리/불성실/투자유의조회
-  - 투자경고/매매정지/정리매매조회
-  - 초저유동성조회
-  - 상/하한가직전
-  - 상/하한
-  - 신고/신저가
-  - 가격대별매매비중조회
-  - 시간대별호가잔량추이
-  - 체결강도추이
-  - 시간별예상체결가
-  - 예상체결가등락율상위조회
-  - API용주식멀티현재가조회
-  - 주식마스터조회API용
+  - PeriodPriceOption [기간별주가p]
+  - TimeOfDayTransactionChartOtion [주식시간대별체결조회챠트]
+  - DayMinuteTickOption [주식당일전일분틱조회]
+  - ManagementUnfaithfulInvestmentCautionOption [관리/불성실/투자유의조회]
+  - InvestmentWarningStopClearanceOption [투자경고/매매정지/정리매매조회] 
+  - LowLiquidityOption [초저유동성조회] 
+  - UpperLowerLimitOption [상/하한]
+  - UpperLowerLimitBeforeOption [상/하한가직전] 
+  - NewHighLowOption [신고/신저가]
+  - PriceRangeTransactionRatioOption [가격대별매매비중조회] 
+  - TimeOfDayAskingPriceOption [시간대별호가잔량추이]
+  - TransactionIntensityOption [체결강도추이] 
+  - TimeOfDayExpectedTransactionPriceOption [시간별예상체결가]
+  - ExpectedTransactionPriceChangeRateTopOption [예상체결가등락율상위조회] 
+  - MultiCurrentPriceOption [API용주식멀티현재가조회] 
+  - StockMasterOption [주식마스터조회API용] 
 
 - #### Exchange
   - TopMemberCompanyOption [종목별 상위 거래원]

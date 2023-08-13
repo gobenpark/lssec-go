@@ -15,7 +15,7 @@ func ClientHelper(t *testing.T) *Client {
 	t.Helper()
 	key, secret := test.Secret(t)
 	cli := NewClient(
-		WithAuth(key, secret), WithAutomaticTokenCache(true))
+		WithAuth(key, secret), WithAutomaticTokenCache(true), WithDebug(true))
 	return cli
 }
 
