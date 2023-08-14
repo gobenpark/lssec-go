@@ -59,4 +59,24 @@ func Test_InvestorOption(t *testing.T) {
 		})
 		require.NoError(t, err)
 	})
+
+	t.Run("InvestorTradeSectorTimeSeriesOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), InvestorTradeSectorTimeSeriesOption{
+			SectorCode: KOSPI_CODE,
+			NMin:       5,
+			Count:      1,
+			Day:        "1",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("InvestorTradeSummaryChartOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), InvestorTradeSummaryChartOption{
+			Market:        "1",
+			PriceOrAmount: "1",
+			DayDivision:   "1",
+			Count:         10,
+		})
+		require.NoError(t, err)
+	})
 }

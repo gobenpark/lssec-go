@@ -107,10 +107,9 @@ if err != nil {
   - ProgramTradeTrendOption [종목별프로그램매매동향]
   - ProgramTradeTimeSeriesByPeriodOption [기간별프로그램매매추이] 
   - ProgramTradeTrendByStockOption [종목별프로그램매매추이]
+  - ProgramTradeSummaryMiniOption [프로그램매매종합조회(미니)]
+  - ProgramTradeTimeSeriesChartOption [시간대별프로그램매매추이(차트)]
 
-  미구현
-  - 프로그램매매종합조회(미니)
-  - 시간대별프로그램매매추이(차트)
 
 - #### Investor
   - TotalInvestorOption [투자자별종합]
@@ -118,10 +117,8 @@ if err != nil {
   - InvestorTradeTimeSeriesDetailOption [시간대별투자자매매추이상세]
   - InvestorTradeSummaryOption1 [투자자매매종합1]
   - InvestorTradeSummaryOption2 [투자자매매종합2]
-
-  미구현
-  - 업종별분별투자자매매동향(챠트용)
-  - 투자자매매종합(챠트)
+  - InvestorTradeSectorTimeSeriesOption [업종별분별투자자매매동향(챠트용)]
+  - InvestorTradeSummaryChartOption [투자자매매종합(챠트)]
 
 - #### Foreigner&Agency
   - ForeignerAgencyOption1 [외인기관종목별 동향]
@@ -155,17 +152,15 @@ if err != nil {
   - MinChartOption [주식챠트(N분)]
   - TotalChartOption [업종챠트(종합)]
   - DaySectorChartOption [업종챠트(일주월)]
-    
-  미구현
-  - 업종챠트(N분)
+  - MinSectorChartOption [업종챠트(N분)] 
 
 - #### ETC
   - NewTickerOption [신규상장종목조회]
+  - CollateralLoanableStockOption [예탁담보융자가능종목현황조회]
+  - MarginRateByTickerOption [증거금율별종목조회]
+  - StockRemainderOption [종목별잔량/사전공시]
 
   미구현
-  - 예탁담보융자가능종목현황조회
-  - 증거금율별종목조회
-  - 종목별잔량/사전공시
   - 신용거래동향
   - 종목별신용정보
   - 공매도일별추이

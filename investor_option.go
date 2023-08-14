@@ -185,3 +185,71 @@ func (t InvestorTradeSummaryOption2) MarshalJSON() ([]byte, error) {
 		t.ContinuesDate,
 	)), nil
 }
+
+// 업종별분별투자자매매동향(챠트용)
+type InvestorTradeSectorTimeSeriesOption struct {
+	SectorCode
+	NMin  int
+	Count int
+	// 0당일, 1:전일
+	Day string
+}
+
+func (InvestorTradeSectorTimeSeriesOption) String() string {
+	return "t1621"
+}
+
+func (InvestorTradeSectorTimeSeriesOption) Path() string {
+	return "/stock/investor"
+}
+
+func (t InvestorTradeSectorTimeSeriesOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"upcode": "%s",
+	"nmin": %d,
+	"cnt": %d,
+	"bgubun": "%s"
+  }
+}`, t.String(),
+		t.SectorCode,
+		t.NMin,
+		t.Count,
+		t.Day,
+	)), nil
+}
+
+// 투자자매매종합(챠트)
+type InvestorTradeSummaryChartOption struct {
+	// 1:코스피, 2:코스닥, 3:선물, 4:콜옵션, 5:풋옵션
+	Market string
+	// 1:수량, 2:금액
+	PriceOrAmount string
+	// 1:시간대별, 2:일별
+	DayDivision string
+	Count       int
+}
+
+func (InvestorTradeSummaryChartOption) String() string {
+	return "t1664"
+}
+
+func (InvestorTradeSummaryChartOption) Path() string {
+	return "/stock/investor"
+}
+
+func (t InvestorTradeSummaryChartOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"mgubun": "%s",
+	"vagubun": "%s",
+	"bdgubun": "%s",
+	"cnt": %d
+  }
+}`, t.String(),
+		t.Market,
+		t.PriceOrAmount,
+		t.DayDivision,
+		t.Count,
+	)), nil
+}

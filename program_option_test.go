@@ -65,4 +65,19 @@ func Test_ProgramOption(t *testing.T) {
 		require.NoError(t, err)
 	})
 
+	t.Run("ProgramTradeSummaryMiniOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), ProgramTradeSummaryMiniOption{
+			Market: "12",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("ProgramTradeTimeSeriesChartOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), ProgramTradeTimeSeriesChartOption{
+			Market:        "1",
+			PriceOrAmount: "0",
+			Day:           "0",
+		})
+		require.NoError(t, err)
+	})
 }

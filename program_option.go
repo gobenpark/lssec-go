@@ -212,3 +212,59 @@ func (t ProgramTradeTrendByStockOption) MarshalJSON() ([]byte, error) {
 		t.ChartIndex,
 	)), nil
 }
+
+// 프로그램매매종합조회(미니)
+type ProgramTradeSummaryMiniOption struct {
+	// 11:거래소 전체, 12:거래소 차익, 13: 거래소비차익, 21:코스닥전체, 22: 코스닥차이, 23:코스닥비차익
+	Market string
+}
+
+func (ProgramTradeSummaryMiniOption) String() string {
+	return "t1640"
+}
+
+func (t ProgramTradeSummaryMiniOption) Path() string {
+	return "/stock/program"
+}
+
+func (t ProgramTradeSummaryMiniOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"gubun": "%s"
+  }
+}`, t.String(),
+		t.Market,
+	)), nil
+}
+
+// 시간대별프로그램매매추이(차트)
+type ProgramTradeTimeSeriesChartOption struct {
+	// 0 코스피, 1코스닥
+	Market string
+	// 0: 금액, 1: 수량
+	PriceOrAmount string
+	// 0: 당일 1:전일
+	Day string
+}
+
+func (ProgramTradeTimeSeriesChartOption) String() string {
+	return "t1662"
+}
+
+func (t ProgramTradeTimeSeriesChartOption) Path() string {
+	return "/stock/program"
+}
+
+func (t ProgramTradeTimeSeriesChartOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"gubun": "%s",
+	"gubun1": "%s",
+	"gubun3": "%s"
+  }
+}`, t.String(),
+		t.Market,
+		t.PriceOrAmount,
+		t.Day,
+	)), nil
+}

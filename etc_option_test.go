@@ -19,4 +19,35 @@ func Test_ETC(t *testing.T) {
 		require.NoError(t, err)
 	})
 
+	t.Run("CollateralLoanableStockOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), CollateralLoanableStockOption{
+			QueryType:        "0",
+			Ticker:           "A005930",
+			StockType:        "0",
+			LoanInterestCode: "00",
+			LoanType:         "1",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("MarginRateByTickerOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), MarginRateByTickerOption{
+			Market:     "0",
+			CreditType: "1",
+			MarginType: "1",
+			Ticker:     "005930",
+			Index:      0,
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("StockRemainderOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), StockRemainderOption{
+			Market: "1",
+			Ticker: "005930",
+			Order:  "1",
+		})
+		require.NoError(t, err)
+	})
+
 }

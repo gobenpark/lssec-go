@@ -39,4 +39,14 @@ func Test_SectorChart(t *testing.T) {
 		require.NoError(t, err)
 	})
 
+	t.Run("MinSectorChartOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), MinSectorChartOption{
+			SectorCode: "001",
+			Count:      2000,
+			StartDate:  "20230701",
+			EndDate:    "20230807",
+		})
+		require.NoError(t, err)
+	})
+
 }

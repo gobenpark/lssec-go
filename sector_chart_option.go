@@ -103,3 +103,58 @@ func (t DaySectorChartOption) MarshalJSON() ([]byte, error) {
 func (DaySectorChartOption) Path() string {
 	return "/indtp/chart"
 }
+
+// 업종챠트(N분)
+type MinSectorChartOption struct {
+	SectorCode SectorCode
+	// 단위(N분)
+	NMin int
+	// 조회건수
+	Count int
+	// 조회영업일수(0:미사용,1>= 사용)
+	Day           string
+	StartDate     string
+	EndDate       string
+	ContinuesDate string
+	ContinuesTime string
+	Compress      bool
+}
+
+func (MinSectorChartOption) String() string {
+	return "t8418"
+}
+
+func (MinSectorChartOption) Path() string {
+	return "/indtp/chart"
+}
+
+func (t MinSectorChartOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"ncnt": %d,
+	"qrycnt": %d,
+	"nday": "%s",
+	"sdate": "%s",
+	"edate": "%s",
+	"cts_date": "%s",
+	"cts_time": "%s",
+	"comp_yn": "%s"
+  }
+}`, t.String(),
+		t.SectorCode,
+		t.NMin,
+		t.Count,
+		t.Day,
+		t.StartDate,
+		t.EndDate,
+		t.ContinuesDate,
+		t.ContinuesTime,
+		func() string {
+			if t.Compress {
+				return "Y"
+			}
+			return "N"
+		}(),
+	)), nil
+}
