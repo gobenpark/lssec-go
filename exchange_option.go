@@ -80,3 +80,30 @@ func (MemberShipTrandsByStockOption) String() string {
 func (MemberShipTrandsByStockOption) Path() string {
 	return "/stock/exchange"
 }
+
+// 회원사리스트
+type MemberShipListOption struct {
+	Ticker string
+	// 0,1: 전회원사 조회 0,1이외의값 입력시 Ticker에 해당하는 회원사 조회
+	MemberShipType string
+}
+
+func (t MemberShipListOption) String() string {
+	return "t1764"
+}
+
+func (t MemberShipListOption) Path() string {
+	return "/stock/exchange"
+}
+
+func (t MemberShipListOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"gubun": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.MemberShipType,
+	)), nil
+}

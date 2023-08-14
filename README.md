@@ -99,18 +99,16 @@ if err != nil {
 - #### Exchange
   - TopMemberCompanyOption [종목별 상위 거래원]
   - MemberShipTrandsByStockOption [종목별 회원사 추이]
-
-  미구현 
-  - 회원사리스트
+  - MemberShipListOption [회원사 리스트] 
 
 - #### Program
   - ProgramTradeSummaryOption [프로그램매매종합조회]
   - ProgramTradeTimeSeriesOption [시간대별프로그램매매추이]
   - ProgramTradeTrendOption [종목별프로그램매매동향]
+  - ProgramTradeTimeSeriesByPeriodOption [기간별프로그램매매추이] 
+  - ProgramTradeTrendByStockOption [종목별프로그램매매추이]
 
   미구현
-  - 기간별프로그램매매추이
-  - 종목별프로그램매매추이
   - 프로그램매매종합조회(미니)
   - 시간대별프로그램매매추이(차트)
 

@@ -30,4 +30,11 @@ func Test_Exchange(t *testing.T) {
 		})
 		require.NoError(t, err)
 	})
+
+	t.Run("MemberShipListOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), MemberShipListOption{
+			Ticker: "005930",
+		})
+		require.NoError(t, err)
+	})
 }
