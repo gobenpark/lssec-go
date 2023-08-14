@@ -50,4 +50,13 @@ func Test_ETC(t *testing.T) {
 		require.NoError(t, err)
 	})
 
+	t.Run("CreditTradeTrendOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), CreditTradeTrendOption{
+			Ticker:     "005930",
+			CreditType: "1",
+			Date:       "",
+		})
+		require.NoError(t, err)
+	})
+
 }

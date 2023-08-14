@@ -159,9 +159,9 @@ if err != nil {
   - CollateralLoanableStockOption [예탁담보융자가능종목현황조회]
   - MarginRateByTickerOption [증거금율별종목조회]
   - StockRemainderOption [종목별잔량/사전공시]
+  - CreditTradeTrendOption [신용거래동향]
 
   미구현
-  - 신용거래동향
   - 종목별신용정보
   - 공매도일별추이
   - 종목별대차거래일간추이

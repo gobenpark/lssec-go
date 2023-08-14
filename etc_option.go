@@ -145,3 +145,33 @@ func (t StockRemainderOption) MarshalJSON() ([]byte, error) {
 		t.Order,
 	)), nil
 }
+
+// 신용거래동향
+type CreditTradeTrendOption struct {
+	Ticker string
+	// 융자대주구분 1:융자 2:대주
+	CreditType string
+	Date       string
+}
+
+func (CreditTradeTrendOption) String() string {
+	return "t1921"
+}
+
+func (CreditTradeTrendOption) Path() string {
+	return "/stock/etc"
+}
+
+func (t CreditTradeTrendOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"gubun": "%s",
+	"date": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.CreditType,
+		t.Date,
+	)), nil
+}
