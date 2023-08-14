@@ -12,6 +12,8 @@ go get github.com/gobenpark/ebest-go
 
 ## Usage
 
+> Return value is byte array so recommand to use [gjson](https://github.com/tidwall/gjson)
+
 ```go
 cli := ebest_go.NewClient(
 	WithAuth(key,secret),
