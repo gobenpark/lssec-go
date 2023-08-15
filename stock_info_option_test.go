@@ -3,6 +3,8 @@ package ebest_go
 import (
 	"context"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_StockInfoOption(t *testing.T) {
@@ -58,5 +60,17 @@ func Test_StockInfoOption(t *testing.T) {
 			Kind:   "S",
 			Symbol: "NAS@IXIC",
 		})
+	})
+
+	t.Run("MarketAroundMoneyOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), MarketAroundMoneyOption{
+			StartDate: "",
+			EndDate:   "",
+			Type:      "",
+			Date:      "",
+			Market:    "001",
+			Count:     1,
+		})
+		require.NoError(t, err)
 	})
 }

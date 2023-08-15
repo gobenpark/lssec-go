@@ -160,13 +160,11 @@ if err != nil {
   - MarginRateByTickerOption [증거금율별종목조회]
   - StockRemainderOption [종목별잔량/사전공시]
   - CreditTradeTrendOption [신용거래동향]
-
-  미구현
-  - 종목별신용정보
-  - 공매도일별추이
-  - 종목별대차거래일간추이
-  - 주식종목조회
-  - 주식종목조회 API용
+  - StockCreditInfoOption  [종목별신용정보]
+  - ShortStockDailyOption [공매도일별추이]
+  - StockMarginTradeTrendOption [종목별대차거래일간추이]
+  - StockOption [주식종목조회]
+  - StockOptionAPI [ 주식종목조회 API용]
 
 - #### Order
   - OrderOption [주식주문]
@@ -174,7 +172,14 @@ if err != nil {
   - OrderModifyOption [주식주문정정]
 
 - ### InvestInformation
-
+  - NewsContentOption [뉴스본문] 
+  - StockMarketScheduleOption [종목별증시일정]
+  - FNGSummaryOption [FNG_요약]
+  - FinancialRankingOption [재무순위종합]
+  - InvestmentOpinionOption [투자의견종합]
+  - OverseasRealtimeIndexOption [해외지수실시간조회]
+  - OverseasIndexOption [해외지수조회]
+  - MarketAroundMoneyOption [증시주변자금추이]
 
 ## TODO
 

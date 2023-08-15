@@ -59,4 +59,41 @@ func Test_ETC(t *testing.T) {
 		require.NoError(t, err)
 	})
 
+	t.Run("StockCreditInfoOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), StockCreditInfoOption{
+			Ticker: "005930",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("ShortStockDailyOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), ShortStockDailyOption{
+			Ticker: "005930",
+			Date:   "",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("StockMarginTradeTrendOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), StockMarginTradeTrendOption{
+			Ticker:    "005930",
+			StartDate: "20230101",
+			EndDate:   "20230801",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("StockOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), StockOption{
+			Market: "0",
+		})
+		require.NoError(t, err)
+	})
+
+	t.Run("StockOptionAPI", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), StockOptionAPI{
+			Market: "0",
+		})
+		require.NoError(t, err)
+	})
 }

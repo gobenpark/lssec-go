@@ -182,7 +182,7 @@ func (t OverseasRealtimeIndexOption) MarshalJSON() ([]byte, error) {
 	)), nil
 }
 
-// 해외지수조회
+// 해외지수조회(API용)
 type OverseasIndexOption struct {
 	// S:해외지수 F:해외선물 R:환율/금리
 	Kind string
@@ -207,5 +207,46 @@ func (t OverseasIndexOption) MarshalJSON() ([]byte, error) {
 }`, t.String(),
 		t.Kind,
 		t.Symbol,
+	)), nil
+}
+
+// 증시주변자금추이
+type MarketAroundMoneyOption struct {
+	StartDate string
+	EndDate   string
+	//	1:예탁금 2:수익증권
+	Type string
+	// 	다음 조회시 사용함. 다음 조회시 OutBlock의 date 필드값 입력. 처음 조회시 Space
+	Date string
+	// 	001:코스피 301:코스닥
+	Market string
+	Count  int
+}
+
+func (MarketAroundMoneyOption) String() string {
+	return "t8428"
+}
+
+func (t MarketAroundMoneyOption) Path() string {
+	return "/stock/investinfo"
+}
+
+func (t MarketAroundMoneyOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"fdate": "%s",
+	"tdate": "%s",
+	"gubun": "%s",
+	"key_date": "%s",
+	"upcode": "%s",
+	"cnt": %d
+  }
+}`, t.String(),
+		t.StartDate,
+		t.EndDate,
+		t.Type,
+		t.Date,
+		t.Market,
+		t.Count,
 	)), nil
 }

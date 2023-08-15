@@ -175,3 +175,136 @@ func (t CreditTradeTrendOption) MarshalJSON() ([]byte, error) {
 		t.Date,
 	)), nil
 }
+
+// 종목별신용정보
+type StockCreditInfoOption struct {
+	Ticker string
+}
+
+func (StockCreditInfoOption) String() string {
+	return "t1926"
+}
+
+func (StockCreditInfoOption) Path() string {
+	return "/stock/etc"
+}
+
+func (t StockCreditInfoOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+	)), nil
+}
+
+// 공매도일별추이
+type ShortStockDailyOption struct {
+	Ticker string
+	// 다음 조회시 사용. OutBlock의 date 필드 값을 입력함.
+	Date      string
+	StartDate string
+	EndDate   string
+}
+
+func (ShortStockDailyOption) String() string {
+	return "t1927"
+}
+
+func (ShortStockDailyOption) Path() string {
+	return "/stock/etc"
+}
+
+func (t ShortStockDailyOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"date": "%s",
+	"sdate": "%s",
+	"edate": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.Date,
+		t.StartDate,
+		t.EndDate,
+	)), nil
+}
+
+// 종목별대차거래일간추이
+type StockMarginTradeTrendOption struct {
+	Ticker    string
+	StartDate string
+	EndDate   string
+}
+
+func (StockMarginTradeTrendOption) String() string {
+	return "t1941"
+}
+
+func (StockMarginTradeTrendOption) Path() string {
+	return "/stock/etc"
+}
+
+func (t StockMarginTradeTrendOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"sdate": "%s",
+	"edate": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.StartDate,
+		t.EndDate,
+	)), nil
+}
+
+// 주식종목조회
+type StockOption struct {
+	// 0:전체, 1:코스피, 2:코스닥
+	Market string
+}
+
+func (StockOption) String() string {
+	return "t8430"
+}
+
+func (StockOption) Path() string {
+	return "/stock/etc"
+}
+
+func (t StockOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"gubun": "%s"
+  }
+}`, t.String(),
+		t.Market,
+	)), nil
+}
+
+// 주식종목조회 API용
+type StockOptionAPI struct {
+	// 0:전체, 1:코스피, 2:코스닥
+	Market string
+}
+
+func (StockOptionAPI) String() string {
+	return "t8436"
+}
+
+func (StockOptionAPI) Path() string {
+	return "/stock/etc"
+}
+
+func (t StockOptionAPI) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"gubun": "%s"
+  }
+}`, t.String(),
+		t.Market,
+	)), nil
+}
