@@ -80,6 +80,8 @@ func NewClient(options ...ClientOption) *Client {
 
 			tk, _ := jwt.Parse(string(bt), nil)
 			d, err := tk.Claims.GetExpirationTime()
+
+			fmt.Println(d)
 			if err != nil {
 				panic(err)
 			}
@@ -94,11 +96,11 @@ func NewClient(options ...ClientOption) *Client {
 				}
 				client.accessToken = tk
 				f.Write([]byte(tk))
+				bt = []byte(tk)
 			}
 			client.accessToken = string(bt)
 		}
 		defer f.Close()
-
 	}
 
 	cli.OnBeforeRequest(func(c *resty.Client, r *resty.Request) error {
