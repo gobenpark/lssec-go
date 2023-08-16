@@ -134,6 +134,25 @@ func (c *Client) AccessToken(ctx context.Context) (string, error) {
 	return gjson.GetBytes(res.Body(), "access_token").String(), nil
 }
 
+func (c *Client) ExecuteContinues(ctx context.Context, option Option, key string) ([]byte, error) {
+	headers := map[string]string{
+		"tr_cd":        option.String(),
+		"tr_cont":      "Y",
+		"content-type": "application/json; charset=utf-8",
+		"tr_cont_key":  key,
+	}
+	res, err := c.cli.R().
+		SetContext(ctx).
+		SetHeaders(headers).
+		SetBody(option).
+		Post(option.Path())
+	if err != nil {
+		return nil, err
+	}
+
+	return res.Body(), nil
+}
+
 func (c *Client) Execute(ctx context.Context, option Option) ([]byte, error) {
 	headers := map[string]string{
 		"tr_cd":        option.String(),

@@ -175,7 +175,7 @@ if err != nil {
   - NewsContentOption [뉴스본문] 
   - StockMarketScheduleOption [종목별증시일정]
   - FNGSummaryOption [FNG_요약]
-  - FinancialRankingOption [재무순위종합]
+  - 위 [재무순위종합]
   - InvestmentOpinionOption [투자의견종합]
   - OverseasRealtimeIndexOption [해외지수실시간조회]
   - OverseasIndexOption [해외지수조회]
