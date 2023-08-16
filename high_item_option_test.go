@@ -21,7 +21,7 @@ func Test_HighItemOption(t *testing.T) {
 			Volume:         0,
 			Index:          0,
 			ExcludeOption2: 0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -29,7 +29,7 @@ func Test_HighItemOption(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), MarketCapTopOption{
 			SectorCode: "001",
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -44,7 +44,7 @@ func Test_HighItemOption(t *testing.T) {
 			EndPrice:        0,
 			Volume:          0,
 			Index:           0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -58,7 +58,7 @@ func Test_HighItemOption(t *testing.T) {
 			Volume:         0,
 			Index:          0,
 			ExcludeOption2: 0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -73,7 +73,7 @@ func Test_HighItemOption(t *testing.T) {
 			Volume:           0,
 			Index:            0,
 			ExcludeOption2:   0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -84,7 +84,7 @@ func Test_HighItemOption(t *testing.T) {
 			TickerCheck: "1",
 			Volume:      "1",
 			Index:       0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -93,7 +93,7 @@ func Test_HighItemOption(t *testing.T) {
 			Market: "1",
 			Volume: "1",
 			Index:  0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -106,7 +106,7 @@ func Test_HighItemOption(t *testing.T) {
 			ExpectStartPrice: 0,
 			ExpectEndPrice:   0,
 			ExpectVolume:     0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -117,7 +117,7 @@ func Test_HighItemOption(t *testing.T) {
 			TickerCheck: "1",
 			Volume:      "1",
 			Index:       0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 

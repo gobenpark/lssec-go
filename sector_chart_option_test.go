@@ -23,7 +23,7 @@ func Test_SectorChart(t *testing.T) {
 			CtsDate:    "",
 			CtsTime:    "",
 			CtsDaygb:   "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -35,7 +35,7 @@ func Test_SectorChart(t *testing.T) {
 			StartDate:   "20230701",
 			EndDate:     "20230807",
 			Compression: false,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -45,7 +45,7 @@ func Test_SectorChart(t *testing.T) {
 			Count:      2000,
 			StartDate:  "20230701",
 			EndDate:    "20230807",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 

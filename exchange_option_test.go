@@ -15,7 +15,7 @@ func Test_Exchange(t *testing.T) {
 			StartDate: "20230806",
 			EndDate:   "20230807",
 			Foreigner: true,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -27,14 +27,14 @@ func Test_Exchange(t *testing.T) {
 			EndDate:      "20230807",
 			TimeOrDate:   "0",
 			Count:        500,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("MemberShipListOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), MemberShipListOption{
 			Ticker: "005930",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

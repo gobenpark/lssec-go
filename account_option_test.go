@@ -17,7 +17,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			StartNumber: 0,
 			StockType:   "01",
 			Ticker:      "KR7000020008",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -31,7 +31,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			StartOrderNumber: 0,
 			Sort:             "0",
 			OrderTypeCode:    "00",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -40,7 +40,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			BuySell:    "2",
 			Ticker:     "A005930",
 			OrderPrice: 0.00,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -49,7 +49,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			StartDate: "20230801",
 			EndDate:   "20230810",
 			Period:    "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -59,7 +59,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			Ticker:  "1",
 			Price:   "1",
 			Where:   "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -70,7 +70,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			SinglePriceType: "",
 			Charge:          "",
 			Ticker:          "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -81,7 +81,7 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 			BuySell:     "0",
 			Sort:        "2",
 			OrderNumber: " ",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

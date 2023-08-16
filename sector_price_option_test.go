@@ -29,13 +29,13 @@ func Test_MarketSectorData(t *testing.T) {
 			CtsDate:    "20230803",
 			Count:      1,
 			Rate:       1,
-		})
+		}, "")
 		require.NoError(t, err)
 		require.Greater(t, len(result), 0)
 	})
 
 	t.Run("TotalIndustry", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), TotalIndustryOption{})
+		_, err := cli.Execute(context.TODO(), TotalIndustryOption{}, "")
 		require.NoError(t, err)
 	})
 
@@ -43,14 +43,14 @@ func Test_MarketSectorData(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ExpectedStockIndexOption{
 			SectorCode: "001",
 			Gubun:      "2",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("CurrentPriceOfIndustryOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), CurrentPriceOfIndustryOption{
 			SectorCode: "101",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -59,7 +59,7 @@ func Test_MarketSectorData(t *testing.T) {
 			SectorCode: "100",
 			Gubun:      "1",
 			Ticker:     "005930",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

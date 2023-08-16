@@ -14,7 +14,7 @@ func Test_InvestorOption(t *testing.T) {
 			StockAmountOrPrice:   "1",
 			OptionAmountOrPrice:  "1",
 			FuturesAmountOrPrice: "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -26,7 +26,7 @@ func Test_InvestorOption(t *testing.T) {
 			PreDayDivision: "0",
 			ContinueTime:   " ",
 			Count:          1,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -39,7 +39,7 @@ func Test_InvestorOption(t *testing.T) {
 			ContinuesTime:  " ",
 			Index:          0,
 			Count:          20,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -47,7 +47,7 @@ func Test_InvestorOption(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), InvestorTradeSummaryOption1{
 			StockPriceOrAmount:  "1",
 			OptionPriceOrAmount: "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -56,7 +56,7 @@ func Test_InvestorOption(t *testing.T) {
 			Market:        "1",
 			PriceOrAmount: "1",
 			DayDivision:   "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -66,7 +66,7 @@ func Test_InvestorOption(t *testing.T) {
 			NMin:       5,
 			Count:      1,
 			Day:        "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -76,7 +76,7 @@ func Test_InvestorOption(t *testing.T) {
 			PriceOrAmount: "1",
 			DayDivision:   "1",
 			Count:         10,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

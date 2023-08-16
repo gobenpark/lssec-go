@@ -20,7 +20,7 @@ func Test_Charts(t *testing.T) {
 			Tdgb:       "0",
 			StartDate:  "20230404",
 			EndDate:    time.Now().Format("20060102"),
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -32,7 +32,7 @@ func Test_Charts(t *testing.T) {
 			UnitType:   "1",
 			StartDate:  "20230604",
 			EndDate:    time.Now().Format("20060102"),
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -45,7 +45,7 @@ func Test_Charts(t *testing.T) {
 			EndDate:   time.Now().Format("20060102"),
 			Compress:  false,
 			Edited:    true,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -60,7 +60,7 @@ func Test_Charts(t *testing.T) {
 			ContinuesDate: "",
 			ContinuesTime: "",
 			Compress:      false,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -75,7 +75,7 @@ func Test_Charts(t *testing.T) {
 			ContinuesDate: "",
 			ContinuesTime: "",
 			Compress:      false,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 

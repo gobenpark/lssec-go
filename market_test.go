@@ -12,24 +12,24 @@ func Test_MarketData(t *testing.T) {
 	cli := ClientHelper(t)
 
 	t.Run("CurrentAskingPriceOption", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), CurrentAskingPriceOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentAskingPriceOption{Ticker: "005930"}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("CurrentPriceOption", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), CurrentPriceOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentPriceOption{Ticker: "005930"}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("CurrentPriceMemoOption", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), CurrentPriceMemoOption{Ticker: "005930"})
+		_, err := cli.Execute(context.TODO(), CurrentPriceMemoOption{Ticker: "005930"}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("SearchPivotDemarkOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), SearchPivotDemarkOption{
 			Ticker: "005930",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -38,7 +38,7 @@ func Test_MarketData(t *testing.T) {
 			Ticker:     "005930",
 			DanChetime: time.Now(),
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -48,7 +48,7 @@ func Test_MarketData(t *testing.T) {
 			Volume:    0,
 			StartTime: time.Now().Add(-2 * time.Hour),
 			EndTime:   time.Now(),
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -59,7 +59,7 @@ func Test_MarketData(t *testing.T) {
 			Gubun:  "0",
 			Time:   time.Date(0, 0, 0, 11, 0, 0, 0, loc),
 			Count:  0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -69,7 +69,7 @@ func Test_MarketData(t *testing.T) {
 			DateType: 1,
 			Date:     "20230801",
 			Count:    1,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -78,14 +78,14 @@ func Test_MarketData(t *testing.T) {
 			Ticker:    "005930",
 			StartTime: "090000",
 			EndTime:   "153000",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("DayMinuteTickOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), DayMinuteTickOption{
 			Ticker: "005930",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -94,7 +94,7 @@ func Test_MarketData(t *testing.T) {
 			Market:          "0",
 			Check:           "1",
 			ContinuesTicker: "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -103,7 +103,7 @@ func Test_MarketData(t *testing.T) {
 			Market:          "0",
 			Check:           "1",
 			ContinuesTicker: "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -111,7 +111,7 @@ func Test_MarketData(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), LowLiquidityOption{
 			Market:          "0",
 			ContinuesTicker: "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -126,7 +126,7 @@ func Test_MarketData(t *testing.T) {
 			EndPrice:   0,
 			Volume:     0,
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -142,7 +142,7 @@ func Test_MarketData(t *testing.T) {
 			Volume:        0,
 			Index:         0,
 			PredayExclude: "c",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -155,7 +155,7 @@ func Test_MarketData(t *testing.T) {
 			EndPrice:   0,
 			Volume:     0,
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -163,7 +163,7 @@ func Test_MarketData(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), PriceRangeTransactionRatioOption{
 			Ticker:   "005930",
 			DateType: "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -173,7 +173,7 @@ func Test_MarketData(t *testing.T) {
 			Minute: "00",
 			Time:   "",
 			Count:  "010",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -185,7 +185,7 @@ func Test_MarketData(t *testing.T) {
 			Date:      0,
 			Time:      0,
 			QueryType: "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -194,7 +194,7 @@ func Test_MarketData(t *testing.T) {
 			Ticker:        "005930",
 			ContinuesTime: "",
 			Count:         20,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -209,21 +209,21 @@ func Test_MarketData(t *testing.T) {
 			StartPrice:        0,
 			EndPrice:          0,
 			TransactionVolume: 0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("MultiCurrentPriceOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), MultiCurrentPriceOption{
 			Tickers: "005930,005380",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("StockMasterOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), StockMasterOption{
 			Type: "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

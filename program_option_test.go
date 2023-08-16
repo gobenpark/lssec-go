@@ -16,7 +16,7 @@ func Test_ProgramOption(t *testing.T) {
 			DateType:  "1",
 			StartDate: "",
 			EndDate:   "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -24,7 +24,7 @@ func Test_ProgramOption(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ProgramTradeTimeSeriesOption{
 			Market:        "1",
 			PriceOrAmount: "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -35,7 +35,7 @@ func Test_ProgramOption(t *testing.T) {
 			Sort:          "0",
 			Ticker:        "005930",
 			Index:         0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -49,7 +49,7 @@ func Test_ProgramOption(t *testing.T) {
 			EndDate:      "20230810",
 			ComparePre:   "0",
 			Date:         "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -61,14 +61,14 @@ func Test_ProgramOption(t *testing.T) {
 			Date:          "20230814",
 			Time:          "",
 			ChartIndex:    9999,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("ProgramTradeSummaryMiniOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ProgramTradeSummaryMiniOption{
 			Market: "12",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -77,7 +77,7 @@ func Test_ProgramOption(t *testing.T) {
 			Market:        "1",
 			PriceOrAmount: "0",
 			Day:           "0",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

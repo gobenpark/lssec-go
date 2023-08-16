@@ -15,7 +15,7 @@ func Test_ETC(t *testing.T) {
 			StartMonth: "202301",
 			EndMonth:   "202308",
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -26,7 +26,7 @@ func Test_ETC(t *testing.T) {
 			StockType:        "0",
 			LoanInterestCode: "00",
 			LoanType:         "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -37,7 +37,7 @@ func Test_ETC(t *testing.T) {
 			MarginType: "1",
 			Ticker:     "005930",
 			Index:      0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -46,7 +46,7 @@ func Test_ETC(t *testing.T) {
 			Market: "1",
 			Ticker: "005930",
 			Order:  "1",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -55,14 +55,14 @@ func Test_ETC(t *testing.T) {
 			Ticker:     "005930",
 			CreditType: "1",
 			Date:       "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("StockCreditInfoOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), StockCreditInfoOption{
 			Ticker: "005930",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -70,7 +70,7 @@ func Test_ETC(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ShortStockDailyOption{
 			Ticker: "005930",
 			Date:   "",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
@@ -79,21 +79,21 @@ func Test_ETC(t *testing.T) {
 			Ticker:    "005930",
 			StartDate: "20230101",
 			EndDate:   "20230801",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("StockOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), StockOption{
 			Market: "0",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("StockOptionAPI", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), StockOptionAPI{
 			Market: "0",
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }

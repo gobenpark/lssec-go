@@ -18,7 +18,7 @@ func Test_ForeignerAgencyOption(t *testing.T) {
 			AccType:        "0",
 			CountinuesDate: "",
 			Index:          0,
-		})
+		}, "")
 		require.NoError(t, err)
 	})
 }
