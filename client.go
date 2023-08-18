@@ -3,7 +3,6 @@ package ebest_go
 import (
 	"context"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -81,18 +80,17 @@ func NewClient(options ...ClientOption) *Client {
 			tk, _ := jwt.Parse(string(bt), nil)
 			d, err := tk.Claims.GetExpirationTime()
 
-			fmt.Println(d)
 			if err != nil {
 				panic(err)
 			}
 			if d.Before(time.Now()) {
 				tk, err := client.AccessToken(context.Background())
 				if err != nil {
-					fmt.Println(err)
+					client.log.Error("err", zap.Error(err))
 				}
 				f, err := os.Create("token")
 				if err != nil {
-					fmt.Println(err)
+					client.log.Error("err", zap.Error(err))
 				}
 				client.accessToken = tk
 				f.Write([]byte(tk))
