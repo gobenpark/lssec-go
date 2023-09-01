@@ -279,3 +279,26 @@ func (t AccountContractOption) MarshalJSON() ([]byte, error) {
 		t.OrderNumber,
 	)), nil
 }
+
+// 현물계좌예수금 주문가능금액 총평가 조회
+type AccountOrderAvailableTotalOption struct {
+}
+
+func (AccountOrderAvailableTotalOption) String() string {
+	return "CSPAQ12200"
+}
+
+func (t AccountOrderAvailableTotalOption) Path() string {
+	return "/stock/accno"
+}
+
+func (t AccountOrderAvailableTotalOption) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"RecCnt": 1,
+	"MgmtBrnNo": "1",
+	"BalCreTp": "1"
+  }
+}`, t.String(),
+	)), nil
+}

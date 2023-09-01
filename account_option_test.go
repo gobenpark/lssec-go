@@ -84,4 +84,9 @@ func TestAccountTradeHistoryOption(t *testing.T) {
 		}, "")
 		require.NoError(t, err)
 	})
+
+	t.Run("AccountOrderAvailableTotalOption", func(t *testing.T) {
+		_, err := cli.Execute(context.TODO(), AccountOrderAvailableTotalOption{}, "")
+		require.NoError(t, err)
+	})
 }
