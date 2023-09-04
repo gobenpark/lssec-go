@@ -34,3 +34,9 @@ func WithDebug(debug bool) ClientOption {
 		c.debug = debug
 	}
 }
+
+func WithSimulation(simulation bool) ClientOption {
+	return func(c *Client) {
+		c.simulation = simulation
+	}
+}

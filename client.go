@@ -34,6 +34,7 @@ type Client struct {
 	broadCaster *BroadCast
 	one         sync.Once
 	debug       bool
+	simulation  bool
 }
 
 func NewClient(options ...ClientOption) *Client {
@@ -292,7 +293,13 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		OnReadError:                  nil,
 		OnWriteError:                 nil,
 	}
-	if err := ws.Dial("wss://openapi.ebestsec.co.kr:9443/websocket", http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {
+
+	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
+	if c.simulation {
+		url = "wss://openapi.ebestsec.co.kr:29443/websocket"
+	}
+
+	if err := ws.Dial(url, http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {
 		panic(err)
 	}
 
