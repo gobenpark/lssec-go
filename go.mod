@@ -3,7 +3,6 @@ module github.com/gobenpark/ebest-go
 go 1.20
 
 require (
-	github.com/cenkalti/backoff/v4 v4.2.1
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/gorilla/websocket v1.5.0

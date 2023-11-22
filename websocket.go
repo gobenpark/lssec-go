@@ -70,7 +70,9 @@ type Websocket struct {
 func (ws *Websocket) WriteJSON(v interface{}) error {
 	err := ErrNotConnected
 	if ws.IsConnected() {
+		ws.mu.Lock()
 		err = ws.Conn.WriteJSON(v)
+		ws.mu.Unlock()
 		if err != nil {
 			if ws.OnWriteError != nil {
 				ws.OnWriteError(ws, err)

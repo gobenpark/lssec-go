@@ -275,21 +275,13 @@ type ReadtimeContent struct {
 func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent) (<-chan []byte, error) {
 	ch := make(chan []byte, 1)
 	ws := &Websocket{
-		Id:                           0,
-		Meta:                         nil,
-		Logger:                       c.log,
-		Errors:                       nil,
-		Reconnect:                    false,
-		ReconnectIntervalMax:         0,
-		ReconnectRandomizationFactor: 0,
-		HandshakeTimeout:             0,
-		Verbose:                      true,
-		OnConnect:                    nil,
-		OnDisconnect:                 nil,
-		OnConnectError:               nil,
-		OnDisconnectError:            nil,
-		OnReadError:                  nil,
-		OnWriteError:                 nil,
+		Id:               0,
+		Meta:             nil,
+		Logger:           c.log,
+		Errors:           nil,
+		Reconnect:        true,
+		HandshakeTimeout: 0,
+		Verbose:          true,
 	}
 
 	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
@@ -302,31 +294,34 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 	}
 
 	for _, content := range contents {
-		r := ReadtimeContent{
-			Header: struct {
-				Token  string `json:"token"`
-				TrType string `json:"tr_type"`
-			}(struct {
-				Token  string
-				TrType string
-			}{
-				Token:  c.accessToken,
-				TrType: string(content.Type),
-			}),
-			Body: struct {
-				TrCD  string `json:"tr_cd"`
-				TrKey string `json:"tr_key"`
-			}(struct {
-				TrCD  string
-				TrKey string
-			}{
-				TrCD:  string(content.TRCD),
-				TrKey: string(content.Ticker),
-			}),
-		}
-		if err := ws.WriteJSON(r); err != nil {
-			panic(err)
-		}
+		go func(content SubscriptionContent) {
+			r := ReadtimeContent{
+				Header: struct {
+					Token  string `json:"token"`
+					TrType string `json:"tr_type"`
+				}(struct {
+					Token  string
+					TrType string
+				}{
+					Token:  c.accessToken,
+					TrType: string(content.Type),
+				}),
+				Body: struct {
+					TrCD  string `json:"tr_cd"`
+					TrKey string `json:"tr_key"`
+				}(struct {
+					TrCD  string
+					TrKey string
+				}{
+					TrCD:  string(content.TRCD),
+					TrKey: content.Ticker,
+				}),
+			}
+			if err := ws.WriteJSON(r); err != nil {
+				panic(err)
+			}
+		}(content)
+		//time.Sleep(500 * time.Millisecond)
 	}
 
 	go func() {
