@@ -180,7 +180,7 @@ func (ws *Websocket) Connect() error {
 
 		if err == nil {
 			if ws.Verbose && ws.Logger != nil {
-				ws.Logger.Info(fmt.Sprintf("Websocket[%d].Dial: connection was successfully established with %s\n", ws.Id, ws.url))
+				ws.Logger.Info(fmt.Sprintf("Websocket[%d].Dial: connection was successfully established with %s", ws.Id, ws.url))
 			}
 			if ws.OnConnect != nil {
 				ws.OnConnect(ws)
@@ -188,7 +188,7 @@ func (ws *Websocket) Connect() error {
 			return nil
 		} else {
 			if ws.Verbose && ws.Logger != nil {
-				ws.Logger.Error(fmt.Sprintf("Websocket[%d].Dial: can't connect to %s, will try again in %v\n", ws.Id, ws.url, expb.NextBackOff()))
+				ws.Logger.Error(fmt.Sprintf("Websocket[%d].Dial: can't connect to %s, will try again in %v", ws.Id, ws.url, expb.NextBackOff()))
 			}
 			if ws.OnConnectError != nil {
 				ws.OnConnectError(ws, err)

@@ -11,13 +11,13 @@ func Test_ThemeStockOption(t *testing.T) {
 	cli := ClientHelper(t)
 
 	t.Run("ThemeStockOption", func(t *testing.T) {
-		_, err := cli.Execute(context.TODO(), ThemeStockOption{}, "")
+		_, err := cli.Execute(context.TODO(), ThemeStockOption{Code: "0090", Name: ""}, "")
 		require.NoError(t, err)
 	})
 
 	t.Run("StockThemeOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), StockThemeOption{
-			Ticker: "005930",
+			Ticker: "314130",
 		}, "")
 		require.NoError(t, err)
 	})
@@ -32,7 +32,7 @@ func Test_ThemeStockOption(t *testing.T) {
 
 	t.Run("ThemeStockQuoteOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ThemeStockQuoteOption{
-			Code: "0151",
+			Code: "0090",
 		}, "")
 		require.NoError(t, err)
 	})

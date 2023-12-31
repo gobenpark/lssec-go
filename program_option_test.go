@@ -13,9 +13,9 @@ func Test_ProgramOption(t *testing.T) {
 	t.Run("ProgramTradeSummaryOption", func(t *testing.T) {
 		_, err := cli.Execute(context.TODO(), ProgramTradeSummaryOption{
 			Market:    "1",
-			DateType:  "1",
-			StartDate: "",
-			EndDate:   "",
+			DateType:  "2",
+			StartDate: "20230801",
+			EndDate:   "20230816",
 		}, "")
 		require.NoError(t, err)
 	})

@@ -3,12 +3,12 @@ package ebest_go
 import (
 	"context"
 	"errors"
-	"io"
+	"fmt"
 	"net/http"
-	"os"
 	"sync"
 	"time"
 
+	"github.com/dgraph-io/badger/v4"
 	"github.com/go-resty/resty/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/websocket"
@@ -25,7 +25,7 @@ type Client struct {
 	appKey      string
 	appSecret   string
 	accessToken string
-	aCache      bool
+	cache       bool
 	log         *zap.Logger
 	expire      time.Duration
 	cli         *resty.Client
@@ -37,71 +37,87 @@ type Client struct {
 }
 
 func NewClient(options ...ClientOption) *Client {
+	var cache *badger.DB
 	client := &Client{}
 
-	defaultLogger, err := zap.NewProduction()
+	for i := range options {
+		options[i](client)
+	}
+
+	logConfig := zap.NewProductionConfig()
+
+	defaultLogger, err := func() (*zap.Logger, error) {
+		if client.debug {
+			logConfig.Level = zap.NewAtomicLevelAt(zap.DebugLevel)
+			return logConfig.Build()
+		}
+		return logConfig.Build()
+	}()
 	if err != nil {
 		panic(err)
 	}
 	client.log = defaultLogger
 
-	for i := range options {
-		options[i](client)
-	}
 	cli := resty.New()
 	cli.SetBaseURL("https://openapi.ebestsec.co.kr:8080")
 	cli.SetDebug(client.debug)
 	client.cli = cli
 
-	if client.aCache {
-		f, err := os.Open("token")
-		if err != nil && errors.Is(err, os.ErrNotExist) {
-			tf, err := os.Create("token")
-			if err != nil {
-				panic(err)
+	getTokenFromCache := func() (string, error) {
+		var token string
+		if err := cache.Update(func(txn *badger.Txn) error {
+			item, err := txn.Get([]byte("token"))
+			if err != nil && errors.Is(err, badger.ErrKeyNotFound) {
+				tk, err := client.AccessToken(context.Background())
+				if err != nil {
+					return err
+				}
+				client.accessToken = tk
+				if err := txn.Set([]byte("token"), []byte(tk)); err != nil {
+					return err
+				}
+				token = tk
+				return nil
 			}
-			defer tf.Close()
-			tk, err := client.AccessToken(context.Background())
-			if err != nil {
-				panic(err)
-			}
+			item.Value(func(val []byte) error {
+				token = string(val)
+				return nil
+			})
 
-			client.accessToken = string(tk)
-			if _, err := tf.Write([]byte(tk)); err != nil {
-				panic(err)
-			}
-		} else if err != nil {
-			panic(err)
-		} else {
-			bt, err := io.ReadAll(f)
-			if err != nil {
-				panic(err)
-			}
-
-			tk, _ := jwt.Parse(string(bt), nil)
+			tk, _ := jwt.Parse(token, nil)
 			d, err := tk.Claims.GetExpirationTime()
-
 			if err != nil {
-				panic(err)
+				return err
 			}
 			if d.Before(time.Now()) {
 				tk, err := client.AccessToken(context.Background())
 				if err != nil {
-					client.log.Error("err", zap.Error(err))
+					return err
 				}
-				f, err := os.Create("token")
-				if err != nil {
-					client.log.Error("err", zap.Error(err))
+
+				if err := txn.Set([]byte("token"), []byte(tk)); err != nil {
+					return err
 				}
-				client.accessToken = tk
-				f.Write([]byte(tk))
-				bt = []byte(tk)
+				token = tk
 			}
-			client.accessToken = string(bt)
+			return nil
+		}); err != nil {
+			return "", err
 		}
-		defer f.Close()
+		return token, nil
 	}
 
+	if client.cache {
+		cache, err = badger.Open(badger.DefaultOptions("ebest_cache"))
+		if err != nil {
+			panic(fmt.Errorf("error while opening badger db: %w", err))
+		}
+		token, err := getTokenFromCache()
+		if err != nil {
+			panic(fmt.Errorf("error while getting token from cache: %w", err))
+		}
+		client.accessToken = token
+	}
 	cli.OnBeforeRequest(func(c *resty.Client, r *resty.Request) error {
 		switch {
 		case client.appKey == "":
@@ -110,6 +126,14 @@ func NewClient(options ...ClientOption) *Client {
 			return errors.New("empty app secret")
 		case client.accessToken == "":
 			return errors.New("empty access token")
+		}
+
+		if client.cache {
+			token, err := getTokenFromCache()
+			if err != nil {
+				return err
+			}
+			client.accessToken = token
 		}
 
 		r.SetHeader("authorization", "Bearer "+client.accessToken)
@@ -274,22 +298,49 @@ type ReadtimeContent struct {
 
 func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent) (<-chan []byte, error) {
 	ch := make(chan []byte, 1)
+	errchan := make(chan error, 1)
+
+	go func() {
+	Done:
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("done")
+				break Done
+			case err := <-errchan:
+				c.log.Error("err", zap.Error(err))
+			}
+		}
+	}()
+
 	ws := &Websocket{
 		Id:                           0,
 		Meta:                         nil,
 		Logger:                       c.log,
-		Errors:                       nil,
-		Reconnect:                    false,
+		Errors:                       errchan,
+		Reconnect:                    true,
 		ReconnectIntervalMax:         0,
 		ReconnectRandomizationFactor: 0,
 		HandshakeTimeout:             0,
 		Verbose:                      true,
-		OnConnect:                    nil,
-		OnDisconnect:                 nil,
-		OnConnectError:               nil,
-		OnDisconnectError:            nil,
-		OnReadError:                  nil,
-		OnWriteError:                 nil,
+		OnConnect: func(ws *Websocket) {
+			c.log.Info("connected")
+		},
+		OnDisconnect: func(ws *Websocket) {
+			c.log.Info("disconnected")
+		},
+		OnConnectError: func(ws *Websocket, err error) {
+			c.log.Error("err", zap.Error(err))
+		},
+		OnDisconnectError: func(ws *Websocket, err error) {
+			c.log.Error("err", zap.Error(err))
+		},
+		OnReadError: func(ws *Websocket, err error) {
+			c.log.Error("err", zap.Error(err))
+		},
+		OnWriteError: func(ws *Websocket, err error) {
+			c.log.Error("err", zap.Error(err))
+		},
 	}
 
 	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
@@ -321,27 +372,33 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 				TrKey string
 			}{
 				TrCD:  string(content.TRCD),
-				TrKey: string(content.Ticker),
+				TrKey: content.Ticker,
 			}),
 		}
 		if err := ws.WriteJSON(r); err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 	}
 
 	go func() {
 		defer close(ch)
+	Done:
 		for {
 			select {
 			case <-ctx.Done():
-				break
+				break Done
 			default:
 				mt, m, err := ws.ReadMessage()
 				if err != nil {
 					break
 				}
 				if mt == websocket.TextMessage {
-					ch <- m
+					c.log.Debug("recv message", zap.String("message", string(m)))
+					select {
+					case ch <- m:
+					case <-ctx.Done():
+						break Done
+					}
 				}
 			}
 		}
