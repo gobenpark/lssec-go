@@ -341,13 +341,6 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		OnWriteError: func(ws *Websocket, err error) {
 			c.log.Error("err", zap.Error(err))
 		},
-		Id:               0,
-		Meta:             nil,
-		Logger:           c.log,
-		Errors:           nil,
-		Reconnect:        true,
-		HandshakeTimeout: 0,
-		Verbose:          true,
 	}
 
 	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
