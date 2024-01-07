@@ -272,6 +272,8 @@ const (
 	ELWMomentum SubscriptionTR = "s4_"
 	// ELW예상체결
 	ELWExpectedContract SubscriptionTR = "Ys3"
+	// 뉴스제목 패킷
+	NewsTitle SubscriptionTR = "NWS"
 
 	AddAccountTRType    SubscriptionTRType = "1"
 	DeleteAccountTRType SubscriptionTRType = "2"
@@ -324,6 +326,33 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		HandshakeTimeout:             0,
 		Verbose:                      true,
 		OnConnect: func(ws *Websocket) {
+			for _, content := range contents {
+				r := ReadtimeContent{
+					Header: struct {
+						Token  string `json:"token"`
+						TrType string `json:"tr_type"`
+					}(struct {
+						Token  string
+						TrType string
+					}{
+						Token:  c.accessToken,
+						TrType: string(content.Type),
+					}),
+					Body: struct {
+						TrCD  string `json:"tr_cd"`
+						TrKey string `json:"tr_key"`
+					}(struct {
+						TrCD  string
+						TrKey string
+					}{
+						TrCD:  string(content.TRCD),
+						TrKey: content.Ticker,
+					}),
+				}
+				if err := ws.WriteJSON(r); err != nil {
+					fmt.Println(err)
+				}
+			}
 			c.log.Info("connected")
 		},
 		OnDisconnect: func(ws *Websocket) {
@@ -350,34 +379,6 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 
 	if err := ws.Dial(url, http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {
 		panic(err)
-	}
-
-	for _, content := range contents {
-		r := ReadtimeContent{
-			Header: struct {
-				Token  string `json:"token"`
-				TrType string `json:"tr_type"`
-			}(struct {
-				Token  string
-				TrType string
-			}{
-				Token:  c.accessToken,
-				TrType: string(content.Type),
-			}),
-			Body: struct {
-				TrCD  string `json:"tr_cd"`
-				TrKey string `json:"tr_key"`
-			}(struct {
-				TrCD  string
-				TrKey string
-			}{
-				TrCD:  string(content.TRCD),
-				TrKey: content.Ticker,
-			}),
-		}
-		if err := ws.WriteJSON(r); err != nil {
-			fmt.Println(err)
-		}
 	}
 
 	go func() {

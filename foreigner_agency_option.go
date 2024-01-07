@@ -44,3 +44,65 @@ func (t ForeignerAgencyOption1) MarshalJSON() ([]byte, error) {
 		t.Index,
 	)), nil
 }
+
+type ForeignerAgencyOption2 struct {
+	Ticker    string
+	StartDate string
+	EndDate   string
+}
+
+func (ForeignerAgencyOption2) String() string {
+	return "t1716"
+}
+
+func (t ForeignerAgencyOption2) Path() string {
+	return "/stock/frgr-itt"
+}
+
+func (t ForeignerAgencyOption2) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"fromdt": "%s",
+	"gubun": "0",
+	"todt": "%s",
+	"prapp": 0,
+	"progubun": "0",
+	"orggubun": "0",
+	"frggubun": "0"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.StartDate,
+		t.EndDate,
+	)), nil
+}
+
+type ForeignerAgencyOption3 struct {
+	Ticker    string
+	StartDate string
+	EndDate   string
+}
+
+func (ForeignerAgencyOption3) String() string {
+	return "t1717"
+}
+
+func (t ForeignerAgencyOption3) Path() string {
+	return "/stock/frgr-itt"
+}
+
+func (t ForeignerAgencyOption3) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf(`{
+  "%sInBlock": {
+	"shcode": "%s",
+	"fromdt": "%s",
+	"gubun": "0",
+	"todt": "%s"
+  }
+}`, t.String(),
+		t.Ticker,
+		t.StartDate,
+		t.EndDate,
+	)), nil
+}
