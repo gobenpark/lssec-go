@@ -1,6 +1,9 @@
 package ebest_go
 
-import "go.uber.org/zap"
+import (
+	"github.com/dgraph-io/badger/v4"
+	"go.uber.org/zap"
+)
 
 type ClientOption func(*Client)
 
@@ -17,7 +20,7 @@ func WithAccessToken(token string) ClientOption {
 	}
 }
 
-func WithAutomaticTokenCache(cache bool) ClientOption {
+func WithCustomCache(cache *badger.DB) ClientOption {
 	return func(client *Client) {
 		client.cache = cache
 	}

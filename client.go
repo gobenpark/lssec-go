@@ -25,7 +25,7 @@ type Client struct {
 	appKey      string
 	appSecret   string
 	accessToken string
-	cache       bool
+	cache       *badger.DB
 	log         *zap.Logger
 	expire      time.Duration
 	cli         *resty.Client
@@ -37,7 +37,6 @@ type Client struct {
 }
 
 func NewClient(options ...ClientOption) *Client {
-	var cache *badger.DB
 	client := &Client{}
 
 	for i := range options {
@@ -63,9 +62,17 @@ func NewClient(options ...ClientOption) *Client {
 	cli.SetDebug(client.debug)
 	client.cli = cli
 
+	if client.cache == nil {
+		cache, err := badger.Open(badger.DefaultOptions("ebest_cache"))
+		if err != nil {
+			panic(err)
+		}
+		client.cache = cache
+	}
+
 	getTokenFromCache := func() (string, error) {
 		var token string
-		if err := cache.Update(func(txn *badger.Txn) error {
+		if err := client.cache.Update(func(txn *badger.Txn) error {
 			item, err := txn.Get([]byte("token"))
 			if err != nil && errors.Is(err, badger.ErrKeyNotFound) {
 				tk, err := client.AccessToken(context.Background())
@@ -106,18 +113,12 @@ func NewClient(options ...ClientOption) *Client {
 		}
 		return token, nil
 	}
-
-	if client.cache {
-		cache, err = badger.Open(badger.DefaultOptions("ebest_cache"))
-		if err != nil {
-			panic(fmt.Errorf("error while opening badger db: %w", err))
-		}
-		token, err := getTokenFromCache()
-		if err != nil {
-			panic(fmt.Errorf("error while getting token from cache: %w", err))
-		}
-		client.accessToken = token
+	token, err := getTokenFromCache()
+	if err != nil {
+		panic(fmt.Errorf("error while getting token from cache: %w", err))
 	}
+	client.accessToken = token
+
 	cli.OnBeforeRequest(func(c *resty.Client, r *resty.Request) error {
 		switch {
 		case client.appKey == "":
@@ -128,13 +129,11 @@ func NewClient(options ...ClientOption) *Client {
 			return errors.New("empty access token")
 		}
 
-		if client.cache {
-			token, err := getTokenFromCache()
-			if err != nil {
-				return err
-			}
-			client.accessToken = token
+		token, err := getTokenFromCache()
+		if err != nil {
+			return err
 		}
+		client.accessToken = token
 
 		r.SetHeader("authorization", "Bearer "+client.accessToken)
 		return nil
