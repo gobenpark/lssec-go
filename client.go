@@ -30,7 +30,6 @@ type Client struct {
 	expire      time.Duration
 	cli         *resty.Client
 	ws          *Websocket
-	broadCaster *BroadCast
 	one         sync.Once
 	debug       bool
 	simulation  bool
@@ -297,6 +296,42 @@ type ReadtimeContent struct {
 	} `json:"body"`
 }
 
+func (c *Client) Publish(ctx context.Context, contents ...SubscriptionContent) error {
+	if c.ws == nil {
+		return errors.New("websocket is nil")
+	}
+
+	for _, content := range contents {
+		r := ReadtimeContent{
+			Header: struct {
+				Token  string `json:"token"`
+				TrType string `json:"tr_type"`
+			}(struct {
+				Token  string
+				TrType string
+			}{
+				Token:  c.accessToken,
+				TrType: string(content.Type),
+			}),
+			Body: struct {
+				TrCD  string `json:"tr_cd"`
+				TrKey string `json:"tr_key"`
+			}(struct {
+				TrCD  string
+				TrKey string
+			}{
+				TrCD:  string(content.TRCD),
+				TrKey: content.Ticker,
+			}),
+		}
+		if err := c.ws.WriteJSON(r); err != nil {
+			return err
+		}
+	}
+	c.log.Info("connected")
+	return nil
+}
+
 func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent) (<-chan []byte, error) {
 	ch := make(chan []byte, 1)
 	errchan := make(chan error, 1)
@@ -306,7 +341,6 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("done")
 				break Done
 			case err := <-errchan:
 				c.log.Error("err", zap.Error(err))
@@ -403,5 +437,6 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 			}
 		}
 	}()
+	c.ws = ws
 	return ch, nil
 }
