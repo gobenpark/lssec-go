@@ -167,6 +167,7 @@ func (ws *Websocket) Connect() error {
 	expb.Multiplier = 1.2
 	expb.MaxInterval = ws.ReconnectIntervalMax
 	expb.RandomizationFactor = ws.ReconnectRandomizationFactor
+	expb.MaxElapsedTime = time.Minute
 
 	//b := backoff.WithContext(expb, ctx)
 

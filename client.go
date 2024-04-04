@@ -315,15 +315,12 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 	}()
 
 	ws := &Websocket{
-		Id:                           0,
-		Meta:                         nil,
-		Logger:                       c.log,
-		Errors:                       errchan,
-		Reconnect:                    true,
-		ReconnectIntervalMax:         0,
-		ReconnectRandomizationFactor: 0,
-		HandshakeTimeout:             0,
-		Verbose:                      true,
+		Id:        0,
+		Meta:      nil,
+		Logger:    c.log,
+		Errors:    errchan,
+		Reconnect: true,
+		Verbose:   true,
 		OnConnect: func(ws *Websocket) {
 			for _, content := range contents {
 				r := ReadtimeContent{
