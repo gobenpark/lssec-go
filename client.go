@@ -332,6 +332,10 @@ func (c *Client) Publish(ctx context.Context, contents ...SubscriptionContent) e
 	return nil
 }
 
+func (c *Client) Close() {
+	c.ws.Close()
+}
+
 func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent) (<-chan []byte, error) {
 	ch := make(chan []byte, 1)
 	errchan := make(chan error, 1)

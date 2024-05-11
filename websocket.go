@@ -164,12 +164,9 @@ func (ws *Websocket) Dial(urlStr string, reqHeader http.Header, opts ...WsOpts) 
 func (ws *Websocket) Connect() error {
 
 	expb := backoff.NewExponentialBackOff()
-	expb.Multiplier = 1.2
 	expb.MaxInterval = ws.ReconnectIntervalMax
 	expb.RandomizationFactor = ws.ReconnectRandomizationFactor
 	expb.MaxElapsedTime = time.Minute
-
-	//b := backoff.WithContext(expb, ctx)
 
 	return backoff.Retry(func() error {
 		wsConn, httpResp, err := ws.dialer.Dial(ws.url, ws.requestHeader)
