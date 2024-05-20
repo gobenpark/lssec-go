@@ -138,6 +138,36 @@ func NewClient(options ...ClientOption) *Client {
 		return nil
 	})
 
+	client.ws = &Websocket{
+		Id:                           0,
+		Meta:                         nil,
+		Logger:                       client.log,
+		Errors:                       make(chan error, 1),
+		Reconnect:                    true,
+		ReconnectIntervalMax:         0,
+		ReconnectRandomizationFactor: 0,
+		HandshakeTimeout:             0,
+		Verbose:                      true,
+		OnConnect: func(ws *Websocket) {
+			client.log.Info("connected")
+		},
+		OnDisconnect: func(ws *Websocket) {
+			client.log.Info("disconnected")
+		},
+		OnConnectError: func(ws *Websocket, err error) {
+			client.log.Error("err", zap.Error(err))
+		},
+		OnDisconnectError: func(ws *Websocket, err error) {
+			client.log.Error("err", zap.Error(err))
+		},
+		OnReadError: func(ws *Websocket, err error) {
+			client.log.Error("err", zap.Error(err))
+		},
+		OnWriteError: func(ws *Websocket, err error) {
+			client.log.Error("err", zap.Error(err))
+		},
+	}
+
 	return client
 }
 
@@ -348,70 +378,41 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		}
 	}()
 
-	ws := &Websocket{
-		Id:                           0,
-		Meta:                         nil,
-		Logger:                       c.log,
-		Errors:                       errchan,
-		Reconnect:                    true,
-		ReconnectIntervalMax:         0,
-		ReconnectRandomizationFactor: 0,
-		HandshakeTimeout:             0,
-		Verbose:                      true,
-		OnConnect: func(ws *Websocket) {
-			for _, content := range contents {
-				r := ReadtimeContent{
-					Header: struct {
-						Token  string `json:"token"`
-						TrType string `json:"tr_type"`
-					}(struct {
-						Token  string
-						TrType string
-					}{
-						Token:  c.accessToken,
-						TrType: string(content.Type),
-					}),
-					Body: struct {
-						TrCD  string `json:"tr_cd"`
-						TrKey string `json:"tr_key"`
-					}(struct {
-						TrCD  string
-						TrKey string
-					}{
-						TrCD:  string(content.TRCD),
-						TrKey: content.Ticker,
-					}),
-				}
-				if err := ws.WriteJSON(r); err != nil {
-					fmt.Println(err)
-				}
-			}
-			c.log.Info("connected")
-		},
-		OnDisconnect: func(ws *Websocket) {
-			c.log.Info("disconnected")
-		},
-		OnConnectError: func(ws *Websocket, err error) {
-			c.log.Error("err", zap.Error(err))
-		},
-		OnDisconnectError: func(ws *Websocket, err error) {
-			c.log.Error("err", zap.Error(err))
-		},
-		OnReadError: func(ws *Websocket, err error) {
-			c.log.Error("err", zap.Error(err))
-		},
-		OnWriteError: func(ws *Websocket, err error) {
-			c.log.Error("err", zap.Error(err))
-		},
-	}
-
 	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
 	if c.simulation {
 		url = "wss://openapi.ebestsec.co.kr:29443/websocket"
 	}
 
-	if err := ws.Dial(url, http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {
+	if err := c.ws.Dial(url, http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {
 		panic(err)
+	}
+
+	for _, content := range contents {
+		r := ReadtimeContent{
+			Header: struct {
+				Token  string `json:"token"`
+				TrType string `json:"tr_type"`
+			}(struct {
+				Token  string
+				TrType string
+			}{
+				Token:  c.accessToken,
+				TrType: string(content.Type),
+			}),
+			Body: struct {
+				TrCD  string `json:"tr_cd"`
+				TrKey string `json:"tr_key"`
+			}(struct {
+				TrCD  string
+				TrKey string
+			}{
+				TrCD:  string(content.TRCD),
+				TrKey: content.Ticker,
+			}),
+		}
+		if err := c.ws.WriteJSON(r); err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	go func() {
@@ -422,7 +423,7 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 			case <-ctx.Done():
 				break Done
 			default:
-				mt, m, err := ws.ReadMessage()
+				mt, m, err := c.ws.ReadMessage()
 				if err != nil {
 					break
 				}
@@ -437,6 +438,5 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 			}
 		}
 	}()
-	c.ws = ws
 	return ch, nil
 }
