@@ -1,4 +1,4 @@
-package ebest_go
+package lssec_go
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gobenpark/ebest-go/test"
+	"github.com/gobenpark/lssec-go/test"
 	"github.com/stretchr/testify/require"
 )
 

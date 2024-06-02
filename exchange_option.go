@@ -1,4 +1,4 @@
-package ebest_go
+package lssec_go
 
 import "fmt"
 

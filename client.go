@@ -1,4 +1,4 @@
-package ebest_go
+package lssec_go
 
 import (
 	"context"
@@ -57,12 +57,12 @@ func NewClient(options ...ClientOption) *Client {
 	client.log = defaultLogger
 
 	cli := resty.New()
-	cli.SetBaseURL("https://openapi.ebestsec.co.kr:8080")
+	cli.SetBaseURL("https://openapi.ls-sec.co.kr:8080")
 	cli.SetDebug(client.debug)
 	client.cli = cli
 
 	if client.cache == nil {
-		cache, err := badger.Open(badger.DefaultOptions("ebest_cache"))
+		cache, err := badger.Open(badger.DefaultOptions("lssec_cache"))
 		if err != nil {
 			panic(err)
 		}
@@ -382,9 +382,9 @@ func (c *Client) Subscribe(ctx context.Context, contents ...SubscriptionContent)
 		}
 	}()
 
-	url := "wss://openapi.ebestsec.co.kr:9443/websocket"
+	url := "wss://openapi.ls-sec.co.kr:9443/websocket"
 	if c.simulation {
-		url = "wss://openapi.ebestsec.co.kr:29443/websocket"
+		url = "wss://openapi.ls-sec.co.kr:29443/websocket"
 	}
 
 	if err := c.ws.Dial(url, http.Header{"content-type": []string{"application/json; charset=utf-8"}}); err != nil {

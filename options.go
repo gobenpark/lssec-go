@@ -1,4 +1,4 @@
-package ebest_go
+package lssec_go
 
 import (
 	"github.com/dgraph-io/badger/v4"

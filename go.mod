@@ -1,4 +1,4 @@
-module github.com/gobenpark/ebest-go
+module github.com/gobenpark/lssec-go
 
 go 1.22
 

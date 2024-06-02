@@ -1,12 +1,12 @@
 <p align="center">
-<h1 align="center">ebest-go</h1>
-<p align="center"><a href="https://ebestsec.co.kr/">ebest investment</a> Unofficial client library for Go </p>
+<h1 align="center">lssec-go</h1>
+<p align="center"><a href="https://ls-sec.co.kr/">lssec investment</a> Unofficial client library for Go </p>
 
 
 ## Installation
 
 ```bash
-go get github.com/gobenpark/ebest-go
+go get github.com/gobenpark/lssec-go
 ```
 
 
@@ -15,7 +15,7 @@ go get github.com/gobenpark/ebest-go
 > Return value is byte array so recommand to use [gjson](https://github.com/tidwall/gjson)
 
 ```go
-cli := ebest_go.NewClient(
+cli := lssec_go.NewClient(
 	WithAuth(key,secret),
 	WithAutomaticTokenCache(true),
 	)
@@ -23,7 +23,7 @@ cli := ebest_go.NewClient(
 // Do something
 cli.AccessToken(context.TODO())
 
-bt, err := cli.Execute(context.TODO(), ebest_go.AccountBalanceOption{
+bt, err := cli.Execute(context.TODO(), lssec_go.AccountBalanceOption{
 PriceType:       "",
 ContractType:    "",
 SinglePriceType: "",
